@@ -1,39 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
-type Locale = "zh" | "en";
-
-type Dictionary = {
-  nav: {
-    title: string;
-    home: string;
-    resume: string;
-    projects: string;
-    blog: string;
-  };
-};
-
-const dictionaries: Record<Locale, Dictionary> = {
-  zh: {
-    nav: {
-      title: "SinYita",
-      home: "首页",
-      resume: "简历",
-      projects: "项目",
-      blog: "博客",
-    },
-  },
-  en: {
-    nav: {
-      title: "SinYita",
-      home: "Home",
-      resume: "Resume",
-      projects: "Projects",
-      blog: "Blog",
-    },
-  },
-};
+import { dictionaries, Locale, Dictionary } from "@/lib/dictionaries";
 
 type LanguageContextValue = {
   locale: Locale;

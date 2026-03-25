@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import BackButton from "./BackButton";
 import { getPost, getAllPostSlugs } from "@/lib/posts";
 import MarkdownContent from "@/components/MarkdownContent";
 
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getPost(slug);
-  if (!post) return { title: "文章未找到" };
+  if (!post) return { title: "Not Found" };
   return {
     title: `${post.title} | Blog`,
     description: post.excerpt,
@@ -31,12 +31,7 @@ export default async function BlogPostPage({ params }: Props) {
     <article className="max-w-3xl mx-auto flex flex-col pb-20">
       {/* Back link */}
       <div className="mb-10">
-        <Link
-          href="/blog"
-          className="text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors inline-flex items-center gap-2"
-        >
-          <span>←</span> Back to blog
-        </Link>
+        <BackButton />
       </div>
 
       {/* Post header */}
@@ -74,12 +69,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Footer nav */}
       <footer>
-        <Link
-          href="/blog"
-          className="text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors inline-flex items-center gap-2"
-        >
-          <span>←</span> Back to blog
-        </Link>
+        <BackButton />
       </footer>
     </article>
   );

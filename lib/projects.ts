@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
-  title: string;
-  description: string;
+  title: string | { zh: string; en: string };
+  description: { zh: string; en: string };
   techStack: string[];
   github?: string;
   demo?: string;
@@ -12,9 +12,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "personal-website",
-    title: "个人网站",
-    description:
-      "基于 Next.js 构建的个人主页，支持 Markdown 写作、LaTeX 数学公式渲染以及多种图表展示。整合了博客系统、项目展示和个人简历功能。",
+    title: { zh: "个人网站", en: "Personal Website" },
+    description: {
+      zh: "基于 Next.js 构建的个人主页，支持 Markdown 写作、LaTeX 数学公式渲染以及多种图表展示。整合了博客系统、项目展示和个人简历功能。",
+      en: "A personal website built with Next.js supporting Markdown, LaTeX math rendering, and charts. Integrates a blog, project showcase, and resume."
+    },
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "KaTeX", "Chart.js"],
     github: "https://github.com/SinYita/Personal",
     demo: "/",
@@ -23,9 +25,11 @@ export const projects: Project[] = [
   },
   {
     id: "ml-notes",
-    title: "机器学习笔记系统",
-    description:
-      "一个支持 LaTeX 公式的机器学习学习笔记平台。包含监督学习、无监督学习、深度学习等章节，以及交互式数据可视化模块。",
+    title: { zh: "机器学习笔记系统", en: "ML Notes System" },
+    description: {
+      zh: "一个支持 LaTeX 公式的机器学习学习笔记平台。包含监督学习、无监督学习、深度学习等章节，以及交互式数据可视化模块。",
+      en: "An ML study notes platform with LaTeX support. Features chapters on supervised/unsupervised learning, deep learning, and interactive data visualization."
+    },
     techStack: ["Python", "FastAPI", "Vue.js", "MathJax", "Matplotlib"],
     github: "https://github.com/SinYita",
     featured: true,
@@ -33,18 +37,22 @@ export const projects: Project[] = [
   },
   {
     id: "data-viz",
-    title: "数据可视化仪表盘",
-    description:
-      "基于 React 和 D3.js 的数据可视化工具，支持多种图表类型（折线图、柱状图、饼图、热力图），可从 CSV/JSON 导入数据并动态渲染。",
+    title: { zh: "数据可视化仪表盘", en: "Data Viz Dashboard" },
+    description: {
+      zh: "基于 React 和 D3.js 的数据可视化工具，支持多种图表类型（折线图、柱状图、 饼图、热力图），可从 CSV/JSON 导入数据并动态渲染。",
+      en: "A data visualization tool based on React and D3.js supporting multiple chart types. Can import tabular data and dynamically render charts."
+    },
     techStack: ["React", "D3.js", "TypeScript", "Python", "Pandas"],
     featured: false,
     date: "2023-05",
   },
   {
     id: "algorithm-visualizer",
-    title: "算法可视化工具",
-    description:
-      "将排序、图遍历、动态规划等经典算法以动画形式呈现，帮助学习者直观理解算法运行过程。",
+    title: { zh: "算法可视化工具", en: "Algorithm Visualizer" },
+    description: {
+      zh: "将排序、图遍历、动态规划等经典算法以动画形式呈现，帮助学习者直观理解算法 运行过程。",
+      en: "Classical algorithms (sorting, graph traversal, DP) presented as animations to help learners intuitively understand execution steps."
+    },
     techStack: ["JavaScript", "Canvas API", "Web Animations API"],
     github: "https://github.com/SinYita",
     featured: false,
