@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPost(slug);
   if (!post) return { title: "文章未找到" };
   return {
-    title: `${post.title} | 博客`,
+    title: `${post.title} | Blog`,
     description: post.excerpt,
   };
 }
@@ -28,59 +28,57 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <article className="max-w-3xl mx-auto space-y-6">
+    <article className="max-w-3xl mx-auto flex flex-col pb-20">
       {/* Back link */}
-      <Link
-        href="/blog"
-        className="text-sm inline-flex items-center gap-1"
-        style={{ color: "var(--accent)" }}
-      >
-        ← 返回博客
-      </Link>
+      <div className="mb-10">
+        <Link
+          href="/blog"
+          className="text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors inline-flex items-center gap-2"
+        >
+          <span>←</span> Back to blog
+        </Link>
+      </div>
 
       {/* Post header */}
-      <header className="space-y-3">
-        <h1 className="text-3xl font-bold leading-tight">{post.title}</h1>
-        <div className="flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--muted)" }}>
-          <time dateTime={post.date}>{post.date}</time>
-          <span>·</span>
-          <div className="flex flex-wrap gap-1.5">
+      <header className="space-y-4 mb-16">
+        <div className="flex flex-col gap-3">
+          <time dateTime={post.date} className="text-sm text-[var(--muted)] font-mono">
+            {post.date}
+          </time>
+          <h1 className="text-4xl font-semibold leading-snug">{post.title}</h1>
+        </div>
+        
+        {post.tags && post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-2">
             {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded text-xs"
-                style={{
-                  background: "color-mix(in srgb, var(--accent) 12%, transparent)",
-                  color: "var(--accent)",
-                }}
-              >
-                {tag}
+              <span key={tag} className="text-xs font-medium text-[var(--muted)]">
+                #{tag}
               </span>
             ))}
           </div>
-        </div>
+        )}
+        
         {post.excerpt && (
-          <p className="text-base italic" style={{ color: "var(--muted)" }}>
+          <p className="text-lg text-[var(--muted)] leading-relaxed pt-2">
             {post.excerpt}
           </p>
         )}
       </header>
 
-      <hr style={{ borderColor: "var(--border)" }} />
-
       {/* Post content */}
-      <MarkdownContent content={post.content} />
+      <div className="mb-16">
+        <MarkdownContent content={post.content} />
+      </div>
 
-      <hr style={{ borderColor: "var(--border)" }} />
+      <hr className="border-t border-[var(--border)] my-8" />
 
       {/* Footer nav */}
       <footer>
         <Link
           href="/blog"
-          className="text-sm"
-          style={{ color: "var(--accent)" }}
+          className="text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors inline-flex items-center gap-2"
         >
-          ← 返回博客列表
+          <span>←</span> Back to blog
         </Link>
       </footer>
     </article>

@@ -1,4 +1,5 @@
 export default function Footer() {
+  const year = new Date().getFullYear();
   return (
     <footer
       style={{
@@ -6,9 +7,9 @@ export default function Footer() {
         color: "var(--muted)",
         background: "var(--card-bg)",
       }}
-      className="py-6 text-center text-sm"
+      className="py-8 text-center text-sm"
     >
-      <p>© {new Date().getFullYear()} My Personal Website · Built with Next.js</p>
+      <p>© {year} SinYita · Built with Next.js & React</p>
     </footer>
   );
 }

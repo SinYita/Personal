@@ -3,82 +3,62 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: "博客 | My Personal Website",
-  description: "技术文章、学习笔记和思考记录。",
+  title: "Blog | SinYita",
+  description: "Technical articles, learning notes, and thoughts.",
 };
 
 export default function BlogPage() {
   const posts = getAllPosts();
 
-  const allTags = Array.from(new Set(posts.flatMap((p) => p.tags)));
-
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">博客</h1>
-        <p style={{ color: "var(--muted)" }}>
-          记录技术学习、项目心得与思考，支持 Markdown 写作与 LaTeX 数学公式。
+    <div className="flex flex-col space-y-16 pb-20">
+      <section className="space-y-4">
+        <h1 className="text-2xl font-semibold">所有博客</h1>
+        <p className="text-[var(--muted)] leading-relaxed">
+          记录技术学习、项目心得与思考。
         </p>
-      </div>
+      </section>
 
-      {/* Tags filter bar (static display) */}
-      <div className="flex flex-wrap gap-2">
-        <span className="text-sm" style={{ color: "var(--muted)" }}>标签：</span>
-        {allTags.map((tag) => (
-          <span
-            key={tag}
-            className="px-2.5 py-1 rounded-full text-xs font-medium"
-            style={{
-              background: "color-mix(in srgb, var(--accent) 10%, transparent)",
-              color: "var(--accent)",
-            }}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Posts list */}
-      <div className="space-y-4">
-        {posts.length === 0 ? (
-          <div
-            className="rounded-xl p-8 text-center"
-            style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-          >
-            <p style={{ color: "var(--muted)" }}>暂无文章，敬请期待。</p>
-          </div>
-        ) : (
-          posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="block rounded-xl p-5 transition-colors hover:shadow-md"
-              style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-            >
-              <div className="flex justify-between items-start gap-3 flex-wrap">
-                <h2 className="font-semibold text-lg hover:underline">{post.title}</h2>
-                <span className="text-xs shrink-0" style={{ color: "var(--muted)" }}>
-                  {post.date}
-                </span>
-              </div>
-              <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
-                {post.excerpt}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-0.5 rounded text-xs"
-                    style={{ background: "var(--border)", color: "var(--muted)" }}
+      <section>
+        <div className="flex flex-col gap-10">
+          {posts.length === 0 ? (
+            <p className="text-[var(--muted)]">暂无文章，敬请期待。</p>
+          ) : (
+            posts.map((post) => (
+              <div key={post.slug} className="group">
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2 sm:gap-4">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="font-medium text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
                   >
-                    {tag}
+                    {post.title}
+                  </Link>
+                  <span className="text-sm text-[var(--muted)] font-mono shrink-0">
+                    {post.date}
                   </span>
-                ))}
+                </div>
+                {post.excerpt && (
+                  <p className="text-[var(--muted)] leading-relaxed mb-3">
+                    {post.excerpt}
+                  </p>
+                )}
+                {post.tags && post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs text-[var(--muted)]"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-            </Link>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      </section>
     </div>
   );
 }

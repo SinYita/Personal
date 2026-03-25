@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "简历 | My Personal Website",
-  description: "个人简历，包含教育背景、工作经历、技能和项目。",
+  title: "Resume | SinYita",
+  description: "个人简历",
 };
 
 const resumeData = {
@@ -75,98 +75,90 @@ const resumeData = {
 
 export default function ResumePage() {
   return (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="flex flex-col space-y-16 pb-20">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <section className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-[var(--border)]">
         <div>
-          <h1 className="text-3xl font-bold">{resumeData.name}</h1>
-          <p className="text-lg mt-1" style={{ color: "var(--muted)" }}>
+          <h1 className="text-3xl font-semibold mb-2">{resumeData.name}</h1>
+          <p className="text-lg text-[var(--muted)]">
             {resumeData.title}
           </p>
-          <div className="flex flex-wrap gap-3 mt-2 text-sm" style={{ color: "var(--muted)" }}>
-            <span>📧 {resumeData.email}</span>
-            <span>📍 {resumeData.location}</span>
-            <span>🐙 {resumeData.github}</span>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-sm text-[var(--muted)] font-mono">
+            <a href={`mailto:${resumeData.email}`} className="hover:text-[var(--foreground)] transition-colors">
+              {resumeData.email}
+            </a>
+            <span>{resumeData.location}</span>
+            <a href={`https://${resumeData.github}`} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors">
+              {resumeData.github}
+            </a>
           </div>
         </div>
         <a
           href="/resume.pdf"
-          className="shrink-0 px-4 py-2 rounded-lg text-sm font-medium text-white"
-          style={{ background: "var(--accent)" }}
+          className="shrink-0 px-4 py-2 text-sm font-medium border border-[var(--border)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-300"
         >
           下载 PDF
         </a>
-      </div>
-
-      <hr style={{ borderColor: "var(--border)" }} />
+      </section>
 
       {/* Summary */}
       <Section title="个人简介">
-        <p style={{ color: "var(--muted)" }}>{resumeData.summary}</p>
+        <p className="text-[var(--muted)] leading-relaxed text-sm sm:text-base">
+          {resumeData.summary}
+        </p>
       </Section>
 
       {/* Education */}
       <Section title="教育背景">
-        {resumeData.education.map((edu, i) => (
-          <div key={i} className="space-y-2">
-            <div className="flex justify-between flex-wrap gap-2">
-              <div>
-                <span className="font-semibold">{edu.degree}</span>
-                <span className="mx-2" style={{ color: "var(--muted)" }}>·</span>
-                <span style={{ color: "var(--muted)" }}>{edu.school}</span>
+        <div className="space-y-8">
+          {resumeData.education.map((edu, i) => (
+            <div key={i} className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                <div className="font-medium text-[var(--foreground)]">
+                  {edu.school}，{edu.degree}
+                </div>
+                <span className="text-sm text-[var(--muted)] font-mono">{edu.duration}</span>
               </div>
-              <span className="text-sm" style={{ color: "var(--muted)" }}>{edu.duration}</span>
+              <p className="text-sm text-[var(--muted)]">GPA: {edu.gpa}</p>
+              <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)]">
+                {edu.highlights.map((h, j) => (
+                  <li key={j} className="leading-relaxed">{h}</li>
+                ))}
+              </ul>
             </div>
-            <p className="text-sm" style={{ color: "var(--accent)" }}>GPA: {edu.gpa}</p>
-            <ul className="list-disc list-inside space-y-1 text-sm" style={{ color: "var(--muted)" }}>
-              {edu.highlights.map((h, j) => (
-                <li key={j}>{h}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))}
+        </div>
       </Section>
 
       {/* Experience */}
       <Section title="工作经历">
-        {resumeData.experience.map((exp, i) => (
-          <div key={i} className="space-y-2">
-            <div className="flex justify-between flex-wrap gap-2">
-              <div>
-                <span className="font-semibold">{exp.title}</span>
-                <span className="mx-2" style={{ color: "var(--muted)" }}>·</span>
-                <span style={{ color: "var(--muted)" }}>{exp.company}</span>
+        <div className="space-y-10">
+          {resumeData.experience.map((exp, i) => (
+            <div key={i} className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                <div className="font-medium text-[var(--foreground)]">
+                  {exp.title} <span className="text-[var(--muted)] mx-2">@</span> {exp.company}
+                </div>
+                <span className="text-sm text-[var(--muted)] font-mono">{exp.duration}</span>
               </div>
-              <span className="text-sm" style={{ color: "var(--muted)" }}>{exp.duration}</span>
+              <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)]">
+                {exp.highlights.map((h, j) => (
+                  <li key={j} className="leading-relaxed">{h}</li>
+                ))}
+              </ul>
             </div>
-            <ul className="list-disc list-inside space-y-1 text-sm" style={{ color: "var(--muted)" }}>
-              {exp.highlights.map((h, j) => (
-                <li key={j}>{h}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))}
+        </div>
       </Section>
 
       {/* Skills */}
       <Section title="技术技能">
-        <div className="space-y-3">
+        <div className="grid sm:grid-cols-2 gap-y-6 gap-x-12">
           {resumeData.skills.map((group) => (
-            <div key={group.category} className="flex flex-wrap gap-2 items-start">
-              <span className="text-sm font-medium w-28 shrink-0">{group.category}</span>
-              <div className="flex flex-wrap gap-1.5">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="px-2 py-0.5 rounded text-xs"
-                    style={{
-                      background: "color-mix(in srgb, var(--accent) 12%, transparent)",
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
+            <div key={group.category} className="space-y-2 text-sm">
+              <div className="font-medium text-[var(--foreground)]">{group.category}</div>
+              <div className="text-[var(--muted)] leading-relaxed">
+                {group.items.join(", ")}
               </div>
             </div>
           ))}
@@ -175,22 +167,24 @@ export default function ResumePage() {
 
       {/* Projects */}
       <Section title="项目经历">
-        {resumeData.projects.map((proj, i) => (
-          <div key={i} className="space-y-1">
-            <span className="font-semibold">{proj.name}</span>
-            <p className="text-sm" style={{ color: "var(--muted)" }}>{proj.desc}</p>
-            <p className="text-xs" style={{ color: "var(--accent)" }}>{proj.tech}</p>
-          </div>
-        ))}
+        <div className="grid sm:grid-cols-2 gap-y-8 gap-x-12">
+          {resumeData.projects.map((proj, i) => (
+            <div key={i} className="space-y-2">
+              <div className="font-medium text-[var(--foreground)]">{proj.name}</div>
+              <p className="text-sm text-[var(--muted)] leading-relaxed">{proj.desc}</p>
+              <p className="text-xs text-[var(--muted)] font-mono mt-1">{proj.tech}</p>
+            </div>
+          ))}
+        </div>
       </Section>
 
       {/* Languages */}
       <Section title="语言能力">
-        <div className="flex gap-6">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-12">
           {resumeData.languages.map((l, i) => (
             <div key={i} className="text-sm">
-              <span className="font-medium">{l.lang}</span>
-              <span className="ml-2" style={{ color: "var(--muted)" }}>{l.level}</span>
+              <span className="font-medium text-[var(--foreground)]">{l.lang}</span>
+              <span className="ml-3 text-[var(--muted)]">{l.level}</span>
             </div>
           ))}
         </div>
@@ -201,15 +195,13 @@ export default function ResumePage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl font-bold flex items-center gap-2">
-        <span
-          className="w-1 h-5 rounded-full inline-block"
-          style={{ background: "var(--accent)" }}
-        />
+    <section className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-8 md:gap-12 items-start">
+      <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)] mt-1">
         {title}
       </h2>
-      <div className="space-y-4 pl-3">{children}</div>
+      <div className="min-w-0">
+        {children}
+      </div>
     </section>
   );
 }

@@ -3,88 +3,54 @@ import { getAllPosts } from "@/lib/posts";
 import { projects } from "@/lib/projects";
 
 export default function HomePage() {
-  const recentPosts = getAllPosts().slice(0, 3);
-  const featuredProjects = projects.filter((p) => p.featured);
+  const recentPosts = getAllPosts().slice(0, 5);
 
   return (
-    <div className="space-y-16">
+    <div className="flex flex-col space-y-24 py-16 pb-32">
       {/* Hero Section */}
-      <section className="flex flex-col items-center text-center py-16 space-y-6">
-        <div
-          className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-bold"
-          style={{ background: "color-mix(in srgb, var(--accent) 15%, transparent)", color: "var(--accent)" }}
-        >
-          S
-        </div>
-        <div className="space-y-3">
-          <h1 className="text-4xl font-bold tracking-tight">你好，我是 SinYita 👋</h1>
-          <p className="text-xl max-w-2xl" style={{ color: "var(--muted)" }}>
+      <section id="about" className="scroll-mt-32">
+        <h1 className="text-2xl font-semibold mb-6">你好，我是 SinYita</h1>
+        <div className="space-y-4 max-w-2xl text-[var(--muted)] leading-relaxed">
+          <p>
             全栈开发者 / 机器学习爱好者 / 技术写作者
           </p>
-          <p className="max-w-xl text-base" style={{ color: "var(--muted)" }}>
+          <p>
             热衷于用代码解决真实问题，专注于 Web 全栈开发与 AI/ML 领域的学习与实践。
             在这里分享我的项目、思考与技术笔记。
           </p>
-        </div>
-        <div className="flex gap-4 flex-wrap justify-center">
-          <Link
-            href="/resume"
-            className="px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-colors"
-            style={{ background: "var(--accent)" }}
-          >
-            查看简历
-          </Link>
-          <Link
-            href="/projects"
-            className="px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
-            style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-          >
-            我的项目
-          </Link>
-          <Link
-            href="/blog"
-            className="px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
-            style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-          >
-            技术博客
-          </Link>
+          <div className="flex gap-4 pt-4 text-sm font-medium">
+            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">GitHub</a>
+            <a href="mailto:your-email@example.com" className="text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">Email</a>
+          </div>
         </div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">精选项目</h2>
-          <Link href="/projects" className="text-sm" style={{ color: "var(--accent)" }}>
-            查看全部 →
-          </Link>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          {featuredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="rounded-xl p-5 space-y-3 transition-shadow hover:shadow-lg"
-              style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-            >
-              <div className="flex justify-between items-start">
-                <h3 className="font-semibold text-lg">{project.title}</h3>
-                <span className="text-xs" style={{ color: "var(--muted)" }}>{project.date}</span>
+      {/* Projects Section */}
+      <section id="projects" className="scroll-mt-32">
+        <h2 className="text-xl font-semibold mb-8">精选项目</h2>
+        <div className="grid gap-x-8 gap-y-12 md:grid-cols-2">
+          {projects.map((project) => (
+            <div key={project.id} className="group flex flex-col space-y-3">
+              <div className="flex items-center gap-3">
+                <Link 
+                  href={project.demo || project.github || "#"} 
+                  target={project.demo || project.github ? "_blank" : undefined}
+                  className="font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
+                >
+                  {project.title}
+                </Link>
+                {project.date && (
+                  <span className="text-xs text-[var(--muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">
+                    {project.date}
+                  </span>
+                )}
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              <p className="text-sm text-[var(--muted)] leading-relaxed flex-grow">
                 {project.description}
               </p>
-              <div className="flex flex-wrap gap-1.5">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2 py-0.5 rounded text-xs font-medium"
-                    style={{
-                      background: "color-mix(in srgb, var(--accent) 12%, transparent)",
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {tech}
-                  </span>
+              <div className="flex gap-2 flex-wrap text-sm text-[var(--muted)] pt-1">
+                {project.techStack.map(tech => (
+                  <span key={tech}>{tech}</span>
                 ))}
               </div>
             </div>
@@ -92,77 +58,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Recent Blog Posts */}
-      <section className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">最新博客</h2>
-          <Link href="/blog" className="text-sm" style={{ color: "var(--accent)" }}>
-            查看全部 →
-          </Link>
-        </div>
-        <div className="space-y-3">
+      {/* Writing Section */}
+      <section id="blog" className="scroll-mt-32">
+        <h2 className="text-xl font-semibold mb-8">最新博客</h2>
+        <div className="flex flex-col gap-6">
           {recentPosts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="flex items-start justify-between rounded-xl p-4 transition-colors group"
-              style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-            >
-              <div className="space-y-1">
-                <h3
-                  className="font-medium group-hover:underline"
-                  style={{ color: "var(--foreground)" }}
-                >
-                  {post.title}
-                </h3>
-                <p className="text-sm" style={{ color: "var(--muted)" }}>
-                  {post.excerpt}
-                </p>
-                <div className="flex gap-1.5 mt-1">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-1.5 py-0.5 rounded"
-                      style={{ background: "var(--border)", color: "var(--muted)" }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <span className="text-xs shrink-0 ml-4 mt-0.5" style={{ color: "var(--muted)" }}>
-                {post.date}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section
-        className="rounded-xl p-6 space-y-4"
-        style={{ background: "var(--card-bg)", border: "1px solid var(--border)" }}
-      >
-        <h2 className="text-2xl font-bold">技术栈</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { category: "前端", skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-            { category: "后端", skills: ["Node.js", "Python", "FastAPI", "PostgreSQL"] },
-            { category: "AI/ML", skills: ["PyTorch", "Scikit-learn", "Pandas", "NumPy"] },
-            { category: "工具", skills: ["Git", "Docker", "Linux", "VS Code"] },
-          ].map((group) => (
-            <div key={group.category} className="space-y-2">
-              <h3 className="text-sm font-semibold" style={{ color: "var(--accent)" }}>
-                {group.category}
-              </h3>
-              <ul className="space-y-1">
-                {group.skills.map((skill) => (
-                  <li key={skill} className="text-sm" style={{ color: "var(--muted)" }}>
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-            </div>
+             <div key={post.slug} className="group">
+               <Link href={`/blog/${post.slug}`} className="flex flex-col sm:flex-row sm:items-baseline justify-between transition-colors">
+                 <span className="font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
+                   {post.title}
+                 </span>
+                 <span className="text-sm text-[var(--muted)] mt-1 sm:mt-0">{post.date}</span>
+               </Link>
+             </div>
           ))}
         </div>
       </section>
