@@ -25,7 +25,7 @@ export default function Navbar() {
     { href: isHome ? "#about" : "/#about", label: t.nav.home },
     { href: isHome ? "#projects" : "/#projects", label: t.nav.projects },
     { href: "/blog", label: t.nav.blog },
-    { href: "/resume", label: t.nav.resume },
+    { href: "/about", label: t.nav.about },
   ];
 
   return (

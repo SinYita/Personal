@@ -4,7 +4,7 @@ export interface Dictionary {
   nav: {
     title: string;
     home: string;
-    resume: string;
+    about: string;
     projects: string;
     blog: string;
   };
@@ -30,7 +30,7 @@ export interface Dictionary {
     demo: string;
     github: string;
   };
-  resumePage: {
+  aboutPage: {
     download: string;
     summary: string;
     edu: string;
@@ -46,7 +46,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     nav: {
       title: "SinYita",
       home: "首页",
-      resume: "简历",
+      about: "关于我",
       projects: "项目",
       blog: "博客",
     },
@@ -75,7 +75,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demo: "在线演示 →",
       github: "GitHub →",
     },
-    resumePage: {
+    aboutPage: {
       download: "下载 PDF",
       summary: "个人简介",
       edu: "教育背景",
@@ -89,7 +89,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     nav: {
       title: "SinYita",
       home: "Home",
-      resume: "Resume",
+      about: "About Me",
       projects: "Projects",
       blog: "Blog",
     },
@@ -118,7 +118,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demo: "Demo →",
       github: "GitHub →",
     },
-    resumePage: {
+    aboutPage: {
       download: "Download PDF",
       summary: "Summary",
       edu: "Education",

@@ -1,46 +1,46 @@
 ---
-title: "Next.js 全栈开发最佳实践"
+title: "Next.js Full-Stack Development Best Practices"
 date: "2024-02-20"
-tags: ["前端", "Next.js", "TypeScript"]
-excerpt: "分享在实际项目中使用 Next.js 进行全栈开发的经验，涵盖路由、数据获取、性能优化等方面。"
+tags: ["Frontend", "Next.js", "TypeScript"]
+excerpt: "Sharing experiences in full-stack development using Next.js in real projects, covering routing, data fetching, and performance optimization."
 ---
 
-# Next.js 全栈开发最佳实践
+# Next.js Full-Stack Development Best Practices
 
-Next.js 是目前最流行的 React 框架之一，提供了服务端渲染（SSR）、静态生成（SSG）和 API 路由等功能。
+Next.js is currently one of the most popular React frameworks, offering features like Server-Side Rendering (SSR), Static Site Generation (SSG), and API routes.
 
-## 项目结构推荐
+## Recommended Project Structure
 
 ```
 my-app/
 ├── app/                  # App Router (Next.js 13+)
-│   ├── layout.tsx        # 根布局
-│   ├── page.tsx          # 首页
-│   ├── (auth)/           # 路由组
-│   └── api/              # API 路由
-├── components/           # 可复用组件
-├── lib/                  # 工具函数
-├── content/              # Markdown 内容
-└── public/               # 静态资源
+│   ├── layout.tsx        # Root layout
+│   ├── page.tsx          # Home page
+│   ├── (auth)/           # Route groups
+│   └── api/              # API routes
+├── components/           # Reusable components
+├── lib/                  # Utility functions
+├── content/              # Markdown contents
+└── public/               # Static assets
 ```
 
-## 数据获取策略
+## Data Fetching Strategies
 
-### 服务端组件（推荐）
+### Server Components (Recommended)
 
 ```typescript
 // app/posts/page.tsx
 async function PostsPage() {
-  // 直接在服务端获取数据，无需 useEffect
+  // Fetch data directly on the server, no useEffect needed
   const posts = await fetch('https://api.example.com/posts', {
-    next: { revalidate: 3600 } // ISR: 每小时重新验证
+    next: { revalidate: 3600 } // ISR: Revalidate every hour
   }).then(r => r.json());
 
   return <PostList posts={posts} />;
 }
 ```
 
-### 客户端组件
+### Client Components
 
 ```typescript
 'use client';
@@ -54,9 +54,9 @@ function UserProfile({ id }: { id: string }) {
 }
 ```
 
-## 性能优化技巧
+## Performance Optimization Tips
 
-### 图片优化
+### Image Optimization
 
 ```tsx
 import Image from 'next/image';
@@ -66,25 +66,25 @@ import Image from 'next/image';
   alt="Hero image"
   width={1200}
   height={630}
-  priority  // LCP 图片使用 priority
+  priority  // Use priority for LCP images
   className="rounded-lg"
 />
 ```
 
-### 动态导入
+### Dynamic Imports
 
 ```tsx
 import dynamic from 'next/dynamic';
 
 const HeavyChart = dynamic(() => import('@/components/Chart'), {
   loading: () => <p>Loading chart...</p>,
-  ssr: false, // 纯客户端组件
+  ssr: false, // Pure client component
 });
 ```
 
-## 元数据管理
+## Metadata Management
 
-Next.js 13+ 提供了类型安全的元数据 API：
+Next.js 13+ provides a type-safe Metadata API:
 
 ```typescript
 import type { Metadata } from 'next';
@@ -101,13 +101,13 @@ export const metadata: Metadata = {
 };
 ```
 
-## 总结
+## Summary
 
-| 特性 | Pages Router | App Router |
-|------|-------------|------------|
-| 数据获取 | `getStaticProps` | 直接 async/await |
-| 布局 | `_app.tsx` | `layout.tsx` |
-| 流式渲染 | 不支持 | 支持 Suspense |
-| 服务端组件 | 不支持 | 默认开启 |
+| Feature | Pages Router | App Router |
+|---------|--------------|------------|
+| Data Fetching | `getStaticProps` | Direct async/await |
+| Layout | `_app.tsx` | `layout.tsx` |
+| Streaming | Not Supported | Supported via Suspense |
+| Server Components | Not Supported | Enabled by default |
 
-推荐新项目全面采用 **App Router**，享受更简洁的开发体验。
+It is highly recommended to fully adopt the **App Router** for new projects to enjoy a much cleaner development experience.

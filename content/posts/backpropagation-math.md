@@ -1,70 +1,70 @@
 ---
-title: "使用 LaTeX 推导反向传播算法"
+title: "Deriving Backpropagation with LaTeX"
 date: "2024-01-15"
-tags: ["机器学习", "深度学习", "数学"]
-excerpt: "深入探讨神经网络反向传播的数学原理，从链式法则出发，用 LaTeX 推导完整的梯度计算过程。"
+tags: ["Machine Learning", "Deep Learning", "Mathematics"]
+excerpt: "An in-depth exploration of the mathematical principles behind backpropagation in neural networks, deriving the complete gradient calculation process using the chain rule and LaTeX."
 ---
 
-# 使用 LaTeX 推导反向传播算法
+# Deriving Backpropagation with LaTeX
 
-反向传播（Backpropagation）是训练神经网络的核心算法。本文通过严格的数学推导，帮助读者理解其本质。
+Backpropagation is the core algorithm for training neural networks. This article provides a rigorous mathematical derivation to help you understand its essence.
 
-## 1. 基本符号定义
+## 1. Basic Symbol Definitions
 
-设神经网络共有 $L$ 层，第 $l$ 层的权重矩阵为 $W^{(l)}$，偏置向量为 $b^{(l)}$，激活函数为 $\sigma$。
+Assume a neural network has $L$ layers. The weight matrix for layer $l$ is $W^{(l)}$, the bias vector is $b^{(l)}$, and the activation function is $\sigma$.
 
-第 $l$ 层的带权输入（pre-activation）：
+The pre-activation for layer $l$:
 
 $$z^{(l)} = W^{(l)} a^{(l-1)} + b^{(l)}$$
 
-激活输出：
+Activation output:
 
 $$a^{(l)} = \sigma(z^{(l)})$$
 
-## 2. 损失函数
+## 2. Loss Function
 
-对于均方误差损失：
+For Mean Squared Error (MSE) loss:
 
 $$\mathcal{L} = \frac{1}{2} \| a^{(L)} - y \|^2$$
 
-## 3. 链式法则与梯度计算
+## 3. Chain Rule and Gradient Calculation
 
-定义误差信号（error signal）：
+Define the error signal:
 
 $$\delta^{(l)} = \frac{\partial \mathcal{L}}{\partial z^{(l)}}$$
 
-**输出层误差：**
+**Output layer error:**
 
 $$\delta^{(L)} = (a^{(L)} - y) \odot \sigma'(z^{(L)})$$
 
-其中 $\odot$ 表示逐元素乘法（Hadamard product）。
+Where $\odot$ denotes the Hadamard product (element-wise multiplication).
 
-**隐藏层误差（向后递推）：**
+**Hidden layer error (backward propagation):**
 
 $$\delta^{(l)} = \left( W^{(l+1)\top} \delta^{(l+1)} \right) \odot \sigma'(z^{(l)})$$
 
-## 4. 参数梯度
+## 4. Parameter Gradients
 
 $$\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \delta^{(l)} \left( a^{(l-1)} \right)^\top$$
 
 $$\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}$$
 
-## 5. 梯度下降更新
+## 5. Gradient Descent Update
 
 $$W^{(l)} \leftarrow W^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial W^{(l)}}$$
 
 $$b^{(l)} \leftarrow b^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial b^{(l)}}$$
 
-其中 $\eta$ 为学习率。
+Where $\eta$ is the learning rate.
 
-## 6. 完整算法流程
+## 6. Complete Algorithm Flow
 
-1. **前向传播**：逐层计算 $z^{(l)}$ 和 $a^{(l)}$
-2. **计算损失**：$\mathcal{L}(a^{(L)}, y)$
-3. **反向传播**：从 $l = L$ 到 $l = 1$，计算 $\delta^{(l)}$
-4. **更新参数**：用计算出的梯度更新 $W^{(l)}$, $b^{(l)}$
+1. **Forward Propagation**: Compute $z^{(l)}$ and $a^{(l)}$ for each layer.
+2. **Compute Loss**: $\mathcal{L}(a^{(L)}, y)$
+3. **Backpropagation**: Compute $\delta^{(l)}$ from $l = L$ down to $l = 1$.
+4. **Update Parameters**: Use the computed gradients to update $W^{(l)}$ and $b^{(l)}$.
 
-## 7. 代码实现
+## 7. Code Implementation
 
 ```python
 import numpy as np
@@ -78,7 +78,7 @@ def sigmoid_prime(z):
 
 def backprop(X, y, weights, biases, lr=0.01):
     L = len(weights)
-    # 前向传播
+    # Forward propagation
     activations = [X]
     zs = []
     a = X
@@ -88,7 +88,7 @@ def backprop(X, y, weights, biases, lr=0.01):
         a = sigmoid(z)
         activations.append(a)
 
-    # 反向传播
+    # Backpropagation
     delta = (activations[-1] - y) * sigmoid_prime(zs[-1])
     grad_W = [delta @ activations[-2].T]
     grad_b = [delta]
@@ -98,7 +98,7 @@ def backprop(X, y, weights, biases, lr=0.01):
         grad_W.insert(0, delta @ activations[l].T)
         grad_b.insert(0, delta)
 
-    # 更新参数
+    # Update parameters
     for i in range(L):
         weights[i] -= lr * grad_W[i]
         biases[i] -= lr * grad_b[i]
@@ -106,8 +106,8 @@ def backprop(X, y, weights, biases, lr=0.01):
     return weights, biases
 ```
 
-## 小结
+## Summary
 
-反向传播本质上是链式法则的高效实现。理解其数学基础，有助于我们更好地调试网络、选择激活函数以及设计优化策略。
+Backpropagation is essentially an efficient implementation of the chain rule. Understanding its mathematical foundation helps us better debug networks, choose activation functions, and design optimization strategies.
 
-> 下一篇将介绍 **Adam 优化器** 的数学原理与实现。
+> The next article will introduce the mathematical principles and implementation of the **Adam Optimizer**.

@@ -2,7 +2,7 @@
 import { useLanguage } from "@/components/LanguageProvider";
 import { resumeData } from "@/lib/resumeData";
 
-export default function ResumeClient() {
+export default function AboutClient() {
   const { t, locale } = useLanguage();
   const data = resumeData;
 
@@ -30,23 +30,17 @@ export default function ResumeClient() {
             </a>
           </div>
         </div>
-        <a
-          href="/resume.pdf"
-          className="shrink-0 px-4 py-2 text-sm font-medium border border-[var(--border)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-300"
-        >
-          {t.resumePage.download}
-        </a>
       </section>
 
       {/* Summary */}
-      <Section title={t.resumePage.summary}>
+      <Section title={t.aboutPage.summary}>
         <p className="text-[var(--muted)] leading-relaxed text-sm sm:text-base">
           {getLocalized(data.summary)}
         </p>
       </Section>
 
       {/* Education */}
-      <Section title={t.resumePage.edu}>
+      <Section title={t.aboutPage.edu}>
         <div className="space-y-8">
           {data.education.map((edu, i) => (
             <div key={i} className="space-y-3">
@@ -68,7 +62,7 @@ export default function ResumeClient() {
       </Section>
 
       {/* Experience */}
-      <Section title={t.resumePage.exp}>
+      <Section title={t.aboutPage.exp}>
         <div className="space-y-10">
           {data.experience.map((exp, i) => (
             <div key={i} className="space-y-3">
@@ -89,7 +83,7 @@ export default function ResumeClient() {
       </Section>
 
       {/* Skills */}
-      <Section title={t.resumePage.skills}>
+      <Section title={t.aboutPage.skills}>
         <div className="grid sm:grid-cols-2 gap-y-6 gap-x-12">
           {data.skills.map((group, i) => (
             <div key={i} className="space-y-2 text-sm">
@@ -103,7 +97,7 @@ export default function ResumeClient() {
       </Section>
 
       {/* Projects */}
-      <Section title={t.resumePage.proj}>
+      <Section title={t.aboutPage.proj}>
         <div className="grid sm:grid-cols-2 gap-y-8 gap-x-12">
           {data.projects.map((proj, i) => (
             <div key={i} className="space-y-2">
@@ -116,7 +110,7 @@ export default function ResumeClient() {
       </Section>
 
       {/* Languages */}
-      <Section title={t.resumePage.lang}>
+      <Section title={t.aboutPage.lang}>
         <div className="flex flex-col sm:flex-row gap-6 sm:gap-12">
           {data.languages.map((l, i) => (
             <div key={i} className="text-sm">
