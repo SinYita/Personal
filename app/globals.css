@@ -12,17 +12,15 @@
   --code-bg: #f8f9fa;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #111111;
-    --foreground: #e5e5e5;
-    --card-bg: transparent;
-    --border: #222222;
-    --accent: #ffffff;
-    --accent-hover: #cccccc;
-    --muted: #888888;
-    --code-bg: #1a1a1a;
-  }
+.dark {
+  --background: #111111;
+  --foreground: #e5e5e5;
+  --card-bg: transparent;
+  --border: #222222;
+  --accent: #ffffff;
+  --accent-hover: #cccccc;
+  --muted: #888888;
+  --code-bg: #1a1a1a;
 }
 
 html {
