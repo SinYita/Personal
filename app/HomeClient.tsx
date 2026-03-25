@@ -3,6 +3,9 @@ import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Project } from "@/lib/projects";
 import { PostMeta } from "@/lib/posts";
+import { SiLeetcode, SiCodeforces } from "react-icons/si";
+import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 
 export default function HomeClient({ recentPosts, projects }: { recentPosts: PostMeta[], projects: Project[] }) {
   const { t, locale } = useLanguage();
@@ -16,9 +19,25 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
           {t.home.heroDesc.map((desc, i) => (
             <p key={i}>{desc}</p>
           ))}
-          <div className="flex gap-4 pt-4 text-sm font-medium">
-            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">{t.home.github}</a>
-            <a href="mailto:contact@example.com" className="text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">{t.home.email}</a>
+          <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
+            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
+              <FaGithub className="text-xl" />
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
+              <FaLinkedin className="text-xl" />
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
+              <SiLeetcode className="text-xl" />
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
+              <SiCodeforces className="text-xl" />
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
+              <FaGraduationCap className="text-2xl" />
+            </a>
+            <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
+              <MdEmail className="text-[1.35rem]" />
+            </a>
           </div>
         </div>
       </section>
