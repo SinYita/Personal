@@ -34,15 +34,15 @@ export default function Navbar() {
   };
 
   return (
-    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-72 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
-      <div className="flex h-full flex-col items-center px-5 py-8 lg:px-6 lg:py-12 text-center">
+    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-64 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
+      <div className="flex h-full flex-col items-center px-5 py-8 lg:px-5 lg:py-12 text-center">
         {/* Avatar Section */}
         <div className="flex flex-col items-center gap-4 pb-8 lg:pb-12">
-          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110 cursor-pointer">
+          <div className="h-20 w-20 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110 cursor-pointer">
             SN
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[var(--foreground)]">SinYita</h1>
+            <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">SinYita</h1>
             <p className="text-sm text-[var(--muted)] mt-1">Full-stack Developer</p>
           </div>
         </div>
