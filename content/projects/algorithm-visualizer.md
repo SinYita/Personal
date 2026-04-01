@@ -3,6 +3,7 @@ id: algorithm-visualizer
 title: Algorithm Visualizer
 description: Interactive algorithm animations designed to make abstract runtime behavior concrete and intuitive.
 techStack: [JavaScript, Canvas API, Web Animations API]
+tags: [Algorithms, Education, Animation]
 github: https://github.com/SinYita
 featured: false
 date: 2022-11

@@ -46,7 +46,14 @@ export default async function ProjectDetailPage({ params }: Props) {
       <header className="space-y-4 mb-10">
         <h1 className="text-4xl font-semibold leading-snug">{project.title}</h1>
         <p className="text-lg text-[var(--muted)] leading-relaxed">{project.description}</p>
-        <div className="flex flex-wrap gap-2 pt-2 text-sm text-[var(--muted)]">
+        <div className="flex flex-wrap gap-2 pt-2">
+          {project.tags.map((tag) => (
+            <span key={tag} className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2 pt-1 text-sm text-[var(--muted)]">
           {project.techStack.map((tech) => (
             <span key={tech}>#{tech}</span>
           ))}

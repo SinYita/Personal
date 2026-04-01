@@ -63,6 +63,13 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
               <p className="text-sm text-[var(--muted)] leading-relaxed flex-grow">
                 {project.description}
               </p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
               <div className="flex gap-2 flex-wrap text-sm text-[var(--muted)] pt-1">
                 {project.techStack.map(tech => (
                   <span key={tech}>{tech}</span>

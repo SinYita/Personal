@@ -3,6 +3,7 @@ id: personal-website
 title: Personal Website
 description: A personal website built with Next.js supporting Markdown, LaTeX math rendering, and charts. Integrates a blog, project showcase, and resume.
 techStack: [Next.js, TypeScript, Tailwind CSS, KaTeX, Chart.js]
+tags: [Portfolio, Writing, App Router]
 github: https://github.com/SinYita/Personal
 demo: /
 featured: true

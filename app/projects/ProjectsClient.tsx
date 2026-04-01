@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
-import SkillsChart from "@/components/SkillsChart";
 
 export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }) {
+  const skillTags = Array.from(new Set(projects.flatMap((project) => project.techStack))).sort();
+
   return (
     <div className="flex flex-col space-y-16 pb-20">
       <section className="space-y-4">
@@ -13,11 +14,18 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
         </p>
       </section>
 
-      {/* Chart Section */}
+      {/* Skill Tags */}
       <section className="space-y-6">
-        <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Skill Distribution</h2>
-        <div className="border border-[var(--border)] rounded-lg p-6 max-w-xl mx-auto">
-          <SkillsChart />
+        <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Skill Tags</h2>
+        <div className="flex flex-wrap gap-3">
+          {skillTags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-[var(--border)] bg-[var(--code-bg)] px-3 py-1 text-sm text-[var(--muted)]"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       </section>
 
@@ -29,8 +37,8 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
             className="group flex flex-col space-y-3"
           >
             <div className="flex items-center gap-3">
-               <h3 className="font-medium text-lg text-[var(--foreground)]">{project.title}</h3>
-               {project.featured && (
+              <h3 className="font-medium text-lg text-[var(--foreground)]">{project.title}</h3>
+              {project.featured && (
                 <span className="text-xs border border-[var(--border)] px-1.5 py-0.5 rounded text-[var(--muted)]">
                   Featured
                 </span>
@@ -39,6 +47,16 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
             <p className="text-sm text-[var(--muted)] leading-relaxed flex-1">
               {project.description}
             </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
             <div className="flex flex-wrap gap-2 text-sm text-[var(--muted)] pt-1">
               {project.techStack.map((tech) => (
                 <span key={tech}>{tech}</span>

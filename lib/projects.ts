@@ -8,6 +8,7 @@ export interface ProjectMeta {
   title: string;
   description: string;
   techStack: string[];
+  tags: string[];
   github?: string;
   demo?: string;
   featured: boolean;
@@ -50,6 +51,7 @@ export function getProjectMeta(slug: string): ProjectMeta | null {
     title: data.title,
     description: data.description,
     techStack: data.techStack ?? [],
+    tags: data.tags ?? [],
     github: data.github,
     demo: data.demo,
     featured: Boolean(data.featured),
@@ -70,6 +72,7 @@ export function getProject(slug: string): Project | null {
     title: data.title,
     description: data.description,
     techStack: data.techStack ?? [],
+    tags: data.tags ?? [],
     github: data.github,
     demo: data.demo,
     featured: Boolean(data.featured),

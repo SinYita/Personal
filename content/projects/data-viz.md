@@ -3,6 +3,7 @@ id: data-viz
 title: Data Viz Dashboard
 description: A visualization dashboard with flexible chart primitives and import workflows for exploratory analysis.
 techStack: [React, D3.js, TypeScript, Python, Pandas]
+tags: [Data Visualization, Dashboard, D3]
 featured: false
 date: 2023-05
 ---

@@ -3,6 +3,7 @@ id: ml-notes
 title: ML Notes System
 description: An ML study platform with structured notes, mathematical formatting, and visual explanations.
 techStack: [Python, FastAPI, Vue.js, MathJax, Matplotlib]
+tags: [Machine Learning, Notes, Education]
 github: https://github.com/SinYita
 featured: true
 date: 2023-09
