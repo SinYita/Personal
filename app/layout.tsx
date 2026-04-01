@@ -26,7 +26,7 @@ export default function RootLayout({
                 <SearchBar />
               </div>
             </div>
-            <main className="flex-1 mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+            <main data-pagefind-body className="flex-1 mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
               {children}
             </main>
             <Footer />

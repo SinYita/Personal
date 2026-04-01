@@ -108,3 +108,21 @@ body {
   background: transparent !important;
   color: var(--foreground) !important;
 }
+
+.search-shell {
+  position: relative;
+}
+
+.search-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(70vh, 42rem);
+  overflow: auto;
+  z-index: 50;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(18px);
+}

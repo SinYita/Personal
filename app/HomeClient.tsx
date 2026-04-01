@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
 import { SiLeetcode, SiCodeforces } from "react-icons/si";
@@ -11,32 +12,47 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
     <div className="flex flex-col space-y-24 py-16 pb-32">
       {/* Hero Section */}
       <section id="about" className="scroll-mt-32">
-        <h1 className="text-2xl font-semibold mb-6">Hi, I&apos;m SinYita</h1>
-        <div className="space-y-4 max-w-2xl text-[var(--muted)] leading-relaxed">
-          <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>
-          <p>
-            I build practical web products with modern React and Next.js, while exploring AI/ML in real projects.
-            This site is where I share my work, ideas, and technical notes.
-          </p>
-          <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
-            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
-              <FaGithub className="text-xl" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
-              <FaLinkedin className="text-xl" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
-              <SiLeetcode className="text-xl" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
-              <SiCodeforces className="text-xl" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
-              <FaGraduationCap className="text-2xl" />
-            </a>
-            <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
-              <MdEmail className="text-[1.35rem]" />
-            </a>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-start">
+          <div className="space-y-4 max-w-2xl">
+            <h1 className="text-2xl font-semibold mb-6">Hi, I&apos;m SinYita</h1>
+            <div className="space-y-4 text-[var(--muted)] leading-relaxed">
+              <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>
+              <p>
+                I build practical web products with modern React and Next.js, while exploring AI/ML in real projects.
+                This site is where I share my work, ideas, and technical notes.
+              </p>
+              <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
+                <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
+                  <FaGithub className="text-xl" />
+                </a>
+                <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
+                  <FaLinkedin className="text-xl" />
+                </a>
+                <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
+                  <SiLeetcode className="text-xl" />
+                </a>
+                <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
+                  <SiCodeforces className="text-xl" />
+                </a>
+                <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
+                  <FaGraduationCap className="text-2xl" />
+                </a>
+                <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
+                  <MdEmail className="text-[1.35rem]" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="justify-self-start lg:justify-self-end">
+            <div className="relative h-48 w-48 overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--code-bg)] shadow-[0_20px_60px_rgba(0,0,0,0.16)]">
+              <Image
+                src="/assets/avatar.svg"
+                alt="SinYita avatar"
+                fill
+                priority
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
