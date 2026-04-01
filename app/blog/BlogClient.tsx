@@ -1,8 +1,35 @@
 "use client";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { PostMeta } from "@/lib/posts";
 
 export default function BlogClient({ posts }: { posts: PostMeta[] }) {
+  const searchParams = useSearchParams();
+  const selectedTag = searchParams.get("tag");
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(
+    selectedTag ? new Set([selectedTag]) : new Set()
+  );
+
+  const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
+
+  const handleTagClick = (tag: string) => {
+    const newTags = new Set(selectedTags);
+    if (newTags.has(tag)) {
+      newTags.delete(tag);
+    } else {
+      newTags.add(tag);
+    }
+    setSelectedTags(newTags);
+  };
+
+  const filteredPosts =
+    selectedTags.size === 0
+      ? posts
+      : posts.filter((post) =>
+          Array.from(selectedTags).some((tag) => post.tags.includes(tag))
+        );
+
   return (
     <div className="flex flex-col space-y-16 pb-20">
       <section className="space-y-4">
@@ -12,12 +39,34 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
         </p>
       </section>
 
+      {/* Tag Filter */}
+      {allTags.length > 0 && (
+        <section className="space-y-6">
+          <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
+          <div className="flex flex-wrap gap-3">
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => handleTagClick(tag)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
+                  selectedTags.has(tag)
+                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                    : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
+                }`}
+              >
+                #{tag}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section>
         <div className="flex flex-col gap-10">
-          {posts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <p className="text-[var(--muted)]">No posts available yet.</p>
           ) : (
-            posts.map((post) => (
+            filteredPosts.map((post) => (
               <div key={post.slug} className="group">
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2 sm:gap-4">
                   <Link
@@ -38,12 +87,17 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                 {post.tags && post.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-1">
                     {post.tags.map((tag) => (
-                      <span
+                      <button
                         key={tag}
-                        className="text-xs text-[var(--muted)]"
+                        onClick={() => handleTagClick(tag)}
+                        className={`text-xs transition-colors cursor-pointer ${
+                          selectedTags.has(tag)
+                            ? "text-[var(--accent)]"
+                            : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                        }`}
                       >
                         #{tag}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 )}

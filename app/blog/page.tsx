@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import BlogClient from "./BlogClient";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Blog | SinYita",
@@ -10,5 +11,9 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const posts = getAllPosts();
 
-  return <BlogClient posts={posts} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogClient posts={posts} />
+    </Suspense>
+  );
 }
