@@ -3,7 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
-import { Binary, GitBranch, GraduationCap, Link as LinkIcon, Mail, Trophy } from "lucide-react";
+import { SiLeetcode, SiCodeforces } from "react-icons/si";
+import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 
 export default function HomeClient({ recentPosts, projects }: { recentPosts: PostMeta[], projects: ProjectMeta[] }) {
   return (
@@ -21,22 +23,22 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
               </p>
               <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
                 <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
-                  <GitBranch className="h-5 w-5" />
+                  <FaGithub className="text-xl" />
                 </a>
                 <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
-                  <LinkIcon className="h-5 w-5" />
+                  <FaLinkedin className="text-xl" />
                 </a>
                 <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
-                  <Trophy className="h-5 w-5" />
+                  <SiLeetcode className="text-xl" />
                 </a>
                 <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
-                  <Binary className="h-5 w-5" />
+                  <SiCodeforces className="text-xl" />
                 </a>
                 <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
-                  <GraduationCap className="h-6 w-6" />
+                  <FaGraduationCap className="text-2xl" />
                 </a>
                 <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
-                  <Mail className="h-5 w-5" />
+                  <MdEmail className="text-[1.35rem]" />
                 </a>
               </div>
             </div>

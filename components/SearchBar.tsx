@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Search } from "lucide-react";
 
 type SearchResult = {
   data: () => Promise<{
@@ -21,6 +20,19 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const loadPagefind = new Function("path", "return import(path)") as (
   path: string,
 ) => Promise<PagefindModule>;
+
+function resolveResultUrl(url?: string) {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")) {
+    return url;
+  }
+
+  const absolutePath = url.startsWith("/") ? url : `/${url}`;
+  if (basePath && !absolutePath.startsWith(basePath + "/") && absolutePath !== basePath) {
+    return `${basePath}${absolutePath}`;
+  }
+  return absolutePath;
+}
 
 export default function SearchBar() {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -128,7 +140,17 @@ export default function SearchBar() {
   return (
     <div ref={rootRef} className="search-shell relative w-full max-w-md">
       <label className="flex w-full items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--code-bg)]/80 px-4 py-2 text-sm text-[var(--muted)] shadow-sm backdrop-blur">
-        <Search aria-hidden="true" className="h-4 w-4 shrink-0" />
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="h-4 w-4 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
         <input
           ref={inputRef}
           type="search"
@@ -162,7 +184,7 @@ export default function SearchBar() {
                 {results.map((result) => (
                   <li key={result.meta.url || result.meta.title} className="space-y-1 border-b border-[var(--border)] pb-4 last:border-b-0 last:pb-0">
                     <a
-                      href={result.meta.url || result.url || "#"}
+                      href={resolveResultUrl(result.meta.url || result.url)}
                       onClick={() => setIsOpen(false)}
                       className="font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
                     >

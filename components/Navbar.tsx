@@ -1,12 +1,11 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { GitBranch, Link as LinkIcon, Mail, Moon, Sun } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -18,7 +17,7 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-72 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
+    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-48 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
       <div className="flex h-full flex-col px-5 py-5 lg:px-6 lg:py-8">
         <div className="flex items-center gap-4 pb-6 lg:pb-10">
           <div className="h-14 w-14 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-lg font-semibold text-white shadow-lg">
@@ -49,27 +48,18 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <div className="flex items-center justify-between gap-4 pt-6 lg:pt-8">
+        <div className="flex items-center gap-3 pt-6 lg:pt-8">
           <div className="flex items-center gap-3 text-[var(--muted)]">
             <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-[var(--foreground)] transition-colors">
-              <GitBranch className="h-5 w-5" />
+              <FaGithub className="text-lg" />
             </a>
             <a href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
-              <LinkIcon className="h-5 w-5" />
+              <FaLinkedin className="text-lg" />
             </a>
             <a href="mailto:contact@example.com" aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
-              <Mail className="h-5 w-5" />
+              <MdEmail className="text-[1.1rem]" />
             </a>
           </div>
-
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-sm font-medium px-3 py-2 rounded-full transition-colors text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] inline-flex items-center gap-2"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {theme === "dark" ? "Light" : "Dark"}
-          </button>
         </div>
       </div>
     </aside>
