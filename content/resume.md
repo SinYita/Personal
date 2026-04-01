@@ -11,8 +11,8 @@ education:
     duration: 2020 - 2024
     gpa: 3.8/4.0
     highlights:
-      - Core: Data Structures, Algorithms, Operating Systems, Computer Networks
-      - Math: Linear Algebra, Probability, Information Theory
+      - "Core: Data Structures, Algorithms, Operating Systems, Computer Networks"
+      - "Math: Linear Algebra, Probability, Information Theory"
       - "Thesis: Text Summarization with Transformer Architectures"
 experience:
   - title: Front-end Intern
