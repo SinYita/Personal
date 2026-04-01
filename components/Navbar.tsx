@@ -35,33 +35,34 @@ export default function Navbar() {
 
   return (
     <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-72 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
-      <div className="flex h-full flex-col px-5 py-5 lg:px-6 lg:py-8">
-        <div className="flex items-center gap-4 pb-6 lg:pb-10">
-          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-lg font-semibold text-white shadow-lg">
+      <div className="flex h-full flex-col items-center px-5 py-8 lg:px-6 lg:py-12 text-center">
+        {/* Avatar Section */}
+        <div className="flex flex-col items-center gap-4 pb-8 lg:pb-12">
+          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110 cursor-pointer">
             SN
           </div>
           <div>
-            <div className="text-xl font-semibold leading-none">SinYita</div>
-            <div className="text-sm text-[var(--muted)] mt-1">Full-stack Developer</div>
+            <h1 className="text-2xl font-bold text-[var(--foreground)]">SinYita</h1>
+            <p className="text-sm text-[var(--muted)] mt-1">Full-stack Developer</p>
           </div>
         </div>
 
-        <nav className="flex-1">
-          <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-3 text-sm font-semibold tracking-[0.16em] uppercase text-[var(--muted)]">
+        <nav className="flex-1 w-full flex flex-col items-center">
+          <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--muted)] w-full lg:w-auto">
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="lg:w-full">
                 {link.children ? (
                   <button
                     onClick={() => toggleMenu(link.href)}
-                    className={`w-full text-left flex items-center justify-between rounded-xl px-4 py-3 transition-colors border border-transparent ${
+                    className={`w-full lg:px-1 py-2 flex items-center justify-center lg:justify-center gap-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
                       isActive(link.href)
-                        ? "bg-[var(--code-bg)] text-[var(--foreground)] border-[var(--border)]"
-                        : "hover:bg-[var(--code-bg)] hover:text-[var(--foreground)]"
+                        ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
+                        : "text-[var(--muted)]"
                     }`}
                   >
                     <span>{link.label}</span>
                     <IoChevronDown
-                      className={`ml-2 transition-transform duration-200 ${
+                      className={`transition-transform duration-200 text-xs ${
                         expandedMenu === link.href ? "rotate-180" : ""
                       }`}
                     />
@@ -69,22 +70,22 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={link.href}
-                    className={`block rounded-xl px-4 py-3 transition-colors border border-transparent ${
+                    className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
                       isActive(link.href)
-                        ? "bg-[var(--code-bg)] text-[var(--foreground)] border-[var(--border)]"
-                        : "hover:bg-[var(--code-bg)] hover:text-[var(--foreground)]"
+                        ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
+                        : "text-[var(--muted)]"
                     }`}
                   >
                     {link.label}
                   </Link>
                 )}
                 {link.children && expandedMenu === link.href && (
-                  <ul className="mt-2 ml-4 space-y-1 text-xs tracking-[0.12em] uppercase">
+                  <ul className="mt-2 space-y-1 text-xs tracking-[0.12em] uppercase">
                     {link.children.map((child) => (
                       <li key={child.href}>
                         <Link
                           href={child.href}
-                          className="block rounded-lg px-3 py-2 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--code-bg)] transition-colors"
+                          className="block px-2 py-1 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors text-center"
                         >
                           {child.label}
                         </Link>
@@ -97,18 +98,16 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3 pt-6 lg:pt-8">
-          <div className="flex items-center gap-3 text-[var(--muted)]">
-            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-[var(--foreground)] transition-colors">
-              <FaGithub className="text-lg" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
-              <FaLinkedin className="text-lg" />
-            </a>
-            <a href="mailto:contact@example.com" aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
-              <MdEmail className="text-[1.1rem]" />
-            </a>
-          </div>
+        <div className="flex items-center justify-center gap-4 pt-6 lg:pt-8 text-[var(--muted)] w-full">
+          <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-[var(--foreground)] transition-colors">
+            <FaGithub className="text-lg" />
+          </a>
+          <a href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
+            <FaLinkedin className="text-lg" />
+          </a>
+          <a href="mailto:contact@example.com" aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
+            <MdEmail className="text-[1.1rem]" />
+          </a>
         </div>
       </div>
     </aside>
