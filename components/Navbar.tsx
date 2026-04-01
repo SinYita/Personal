@@ -15,7 +15,7 @@ export default function Navbar() {
     { href: "/projects", label: "Projects" },
     {
       href: "/blog",
-      label: "Blog",
+      label: "BLOG",
       children: [
         { href: "/blog?topic=technical", label: "Technical" },
         { href: "/blog?topic=solutions", label: "Solutions" },
@@ -52,21 +52,34 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <li key={link.href} className="lg:w-full">
                 {link.children ? (
-                  <button
-                    onClick={() => toggleMenu(link.href)}
-                    className={`w-full lg:px-1 py-2 flex items-center justify-center lg:justify-center gap-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
-                      isActive(link.href)
-                        ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
-                        : "text-[var(--muted)]"
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    <IoChevronDown
-                      className={`transition-transform duration-200 text-xs ${
-                        expandedMenu === link.href ? "rotate-180" : ""
+                  <div className="flex items-center justify-center gap-1">
+                    <Link
+                      href={link.href}
+                      className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
+                        isActive(link.href)
+                          ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
+                          : "text-[var(--muted)]"
                       }`}
-                    />
-                  </button>
+                    >
+                      {link.label}
+                    </Link>
+                    <button
+                      type="button"
+                      aria-label={`Toggle ${link.label} submenu`}
+                      onClick={() => toggleMenu(link.href)}
+                      className={`px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
+                        isActive(link.href)
+                          ? "text-[var(--foreground)]"
+                          : "text-[var(--muted)]"
+                      }`}
+                    >
+                      <IoChevronDown
+                        className={`transition-transform duration-200 text-xs ${
+                          expandedMenu === link.href ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  </div>
                 ) : (
                   <Link
                     href={link.href}
@@ -80,7 +93,7 @@ export default function Navbar() {
                   </Link>
                 )}
                 {link.children && expandedMenu === link.href && (
-                  <ul className="mt-2 space-y-1 text-xs tracking-[0.12em] uppercase">
+                  <ul className="mt-2 space-y-1 text-xs tracking-[0.12em] normal-case">
                     {link.children.map((child) => (
                       <li key={child.href}>
                         <Link
