@@ -12,6 +12,8 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   );
 
   const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
+  const recentPosts = posts.slice(0, 5);
+  const selectedTagList = Array.from(selectedTags);
 
   const handleTagClick = (tag: string) => {
     const newTags = new Set(selectedTags);
@@ -31,69 +33,54 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
         );
 
   return (
-    <div className="flex flex-col space-y-16 pb-20">
-      <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">All Posts</h1>
-        <p className="text-[var(--muted)] leading-relaxed">
-          Notes, thoughts, and technical writing.
-        </p>
-      </section>
+    <div className="grid gap-12 pb-20 lg:grid-cols-[minmax(0,1fr)_260px]">
+      <section className="space-y-10">
+        <header className="space-y-4 border-b border-[var(--border)] pb-8">
+          <p className="text-sm text-[var(--muted)]">
+            <Link href="/" className="hover:text-[var(--foreground)] transition-colors">
+              Home
+            </Link>
+            <span className="px-2">›</span>
+            <span>Blog</span>
+          </p>
+          <h1 className="text-4xl font-semibold tracking-tight">Latest Posts</h1>
+          <p className="text-[var(--muted)] leading-relaxed">
+            Technical writing, research notes, and engineering walkthroughs.
+          </p>
+        </header>
 
-      {/* Tag Filter */}
-      {allTags.length > 0 && (
-        <section className="space-y-6">
-          <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
-          <div className="flex flex-wrap gap-3">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => handleTagClick(tag)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
-                  selectedTags.has(tag)
-                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
-                    : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
-                }`}
-              >
-                #{tag}
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section>
-        <div className="flex flex-col gap-10">
+        <div className="space-y-10">
           {filteredPosts.length === 0 ? (
-            <p className="text-[var(--muted)]">No posts available yet.</p>
+            <p className="text-[var(--muted)]">No posts match the selected tags.</p>
           ) : (
             filteredPosts.map((post) => (
-              <div key={post.slug} className="group">
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2 sm:gap-4">
+              <article key={post.slug} className="border-b border-[var(--border)] pb-10 last:border-b-0">
+                <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="font-medium text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
+                    className="text-2xl font-semibold leading-tight hover:text-[var(--accent)] transition-colors"
                   >
                     {post.title}
                   </Link>
-                  <span className="text-sm text-[var(--muted)] font-mono shrink-0">
+                  <time className="shrink-0 font-mono text-sm text-[var(--muted)]" dateTime={post.date}>
                     {post.date}
-                  </span>
+                  </time>
                 </div>
+
                 {post.excerpt && (
-                  <p className="text-[var(--muted)] leading-relaxed mb-3">
-                    {post.excerpt}
-                  </p>
+                  <p className="mb-4 text-[var(--muted)] leading-relaxed">{post.excerpt}</p>
                 )}
-                {post.tags && post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-1">
+
+                {post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
                       <button
                         key={tag}
                         onClick={() => handleTagClick(tag)}
-                        className={`text-xs transition-colors cursor-pointer ${
+                        className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
                           selectedTags.has(tag)
-                            ? "text-[var(--accent)]"
-                            : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                            ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                            : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)]"
                         }`}
                       >
                         #{tag}
@@ -101,11 +88,71 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                     ))}
                   </div>
                 )}
-              </div>
+              </article>
             ))
           )}
         </div>
       </section>
+
+      <aside className="space-y-8 lg:sticky lg:top-24 lg:h-fit">
+        <section className="border-l border-[var(--border)] pl-4">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
+            Recently Updated
+          </h2>
+          <ul className="space-y-2">
+            {recentPosts.map((post) => (
+              <li key={`recent-${post.slug}`}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                >
+                  {post.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="border-l border-[var(--border)] pl-4">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
+            Trending Tags
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {allTags.map((tag) => (
+              <button
+                key={`sidebar-${tag}`}
+                onClick={() => handleTagClick(tag)}
+                className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
+                  selectedTags.has(tag)
+                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                    : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)]"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {selectedTagList.length > 0 && (
+          <section className="border-l border-[var(--border)] pl-4">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--foreground)]">
+              Active Filters
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {selectedTagList.map((tag) => (
+                <button
+                  key={`active-${tag}`}
+                  onClick={() => handleTagClick(tag)}
+                  className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-2.5 py-1 text-xs text-[var(--background)]"
+                >
+                  #{tag} ×
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+      </aside>
     </div>
   );
 }
