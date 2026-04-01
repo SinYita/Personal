@@ -2,10 +2,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export interface Project {
+export interface ProjectMeta {
+  slug: string;
   id: string;
-  title: string | { zh: string; en: string };
-  description: { zh: string; en: string };
+  title: string;
+  description: string;
   techStack: string[];
   github?: string;
   demo?: string;
@@ -13,20 +14,30 @@ export interface Project {
   date: string;
 }
 
+export interface Project extends ProjectMeta {
+  content: string;
+}
+
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
-export function getAllProjects(): Project[] {
+export function getAllProjectSlugs(): string[] {
   if (!fs.existsSync(projectsDirectory)) return [];
-
   return fs
     .readdirSync(projectsDirectory)
     .filter((file) => file.endsWith(".md"))
-    .map((file) => getProject(file.replace(/\.md$/, "")))
-    .filter(Boolean)
-    .sort((a, b) => new Date(b!.date).getTime() - new Date(a!.date).getTime()) as Project[];
+    .map((file) => file.replace(/\.md$/, ""));
 }
 
-export function getProject(slug: string): Project | null {
+export function getAllProjects(): ProjectMeta[] {
+  if (!fs.existsSync(projectsDirectory)) return [];
+
+  return getAllProjectSlugs()
+    .map((slug) => getProjectMeta(slug))
+    .filter(Boolean)
+    .sort((a, b) => new Date(b!.date).getTime() - new Date(a!.date).getTime()) as ProjectMeta[];
+}
+
+export function getProjectMeta(slug: string): ProjectMeta | null {
   const filePath = path.join(projectsDirectory, `${slug}.md`);
   if (!fs.existsSync(filePath)) return null;
 
@@ -34,6 +45,7 @@ export function getProject(slug: string): Project | null {
   const { data } = matter(raw);
 
   return {
+    slug,
     id: data.id ?? slug,
     title: data.title,
     description: data.description,
@@ -42,5 +54,26 @@ export function getProject(slug: string): Project | null {
     demo: data.demo,
     featured: Boolean(data.featured),
     date: data.date ? String(data.date) : "",
+  };
+}
+
+export function getProject(slug: string): Project | null {
+  const filePath = path.join(projectsDirectory, `${slug}.md`);
+  if (!fs.existsSync(filePath)) return null;
+
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(raw);
+
+  return {
+    slug,
+    id: data.id ?? slug,
+    title: data.title,
+    description: data.description,
+    techStack: data.techStack ?? [],
+    github: data.github,
+    demo: data.demo,
+    featured: Boolean(data.featured),
+    date: data.date ? String(data.date) : "",
+    content,
   };
 }

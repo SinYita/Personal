@@ -1,15 +1,24 @@
 ---
 id: algorithm-visualizer
-title:
-  zh: 算法可视化工具
-  en: Algorithm Visualizer
-description:
-  zh: 将排序、图遍历、动态规划等经典算法以动画形式呈现，帮助学习者直观理解算法运行过程。
-  en: Classical algorithms (sorting, graph traversal, DP) presented as animations to help learners intuitively understand execution steps.
+title: Algorithm Visualizer
+description: Interactive algorithm animations designed to make abstract runtime behavior concrete and intuitive.
 techStack: [JavaScript, Canvas API, Web Animations API]
 github: https://github.com/SinYita
 featured: false
 date: 2022-11
 ---
 
-Project content source in Markdown frontmatter.
+## Overview
+
+This tool turns algorithm steps into animations so learners can observe state transitions, not just final outputs.
+
+## Implemented Modules
+
+- Sorting visualizations with adjustable speed and dataset size.
+- Graph traversal animations for BFS and DFS.
+- Dynamic programming examples with step-by-step table updates.
+
+## Learning Value
+
+- Helps explain time and space tradeoffs through direct visual feedback.
+- Useful in mentoring sessions and beginner algorithm workshops.

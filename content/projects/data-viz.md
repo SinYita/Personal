@@ -1,14 +1,23 @@
 ---
 id: data-viz
-title:
-  zh: 数据可视化仪表盘
-  en: Data Viz Dashboard
-description:
-  zh: 基于 React 和 D3.js 的数据可视化工具，支持多种图表类型（折线图、柱状图、饼图、热力图），可从 CSV/JSON 导入数据并动态渲染。
-  en: A data visualization tool based on React and D3.js supporting multiple chart types. Can import tabular data and dynamically render charts.
+title: Data Viz Dashboard
+description: A visualization dashboard with flexible chart primitives and import workflows for exploratory analysis.
 techStack: [React, D3.js, TypeScript, Python, Pandas]
 featured: false
 date: 2023-05
 ---
 
-Project content source in Markdown frontmatter.
+## Overview
+
+This dashboard focuses on fast data exploration. The goal was to make it easy to load a dataset, switch visual encodings, and compare trends without rewriting chart code.
+
+## Key Features
+
+- Support for line, bar, pie, and heatmap visualizations.
+- CSV and JSON import with lightweight preprocessing.
+- Dynamic chart updates based on selected dimensions and metrics.
+
+## Engineering Decisions
+
+- Used D3 for low-level control while keeping React in charge of state and composition.
+- Added consistent color and axis conventions to reduce cognitive load across chart types.

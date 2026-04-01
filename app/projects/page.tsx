@@ -4,7 +4,7 @@ import ProjectsClient from "./ProjectsClient";
 
 export const metadata: Metadata = {
   title: "Projects | SinYita",
-  description: "My open source projects and personal works.",
+  description: "Project case studies, experiments, and engineering notes.",
 };
 
 export default function ProjectsPage() {

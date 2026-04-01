@@ -2,43 +2,38 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export interface LocalizedText {
-  zh: string;
-  en: string;
-}
-
 export interface ResumeData {
   name: string;
   email: string;
   github: string;
-  title: LocalizedText;
-  location: LocalizedText;
-  summary: LocalizedText;
+  title: string;
+  location: string;
+  summary: string;
   education: Array<{
-    degree: LocalizedText;
-    school: LocalizedText;
+    degree: string;
+    school: string;
     duration: string;
     gpa: string;
-    highlights: { zh: string[]; en: string[] };
+    highlights: string[];
   }>;
   experience: Array<{
-    title: LocalizedText;
-    company: LocalizedText;
+    title: string;
+    company: string;
     duration: string;
-    highlights: { zh: string[]; en: string[] };
+    highlights: string[];
   }>;
   skills: Array<{
-    category: LocalizedText;
+    category: string;
     items: string[];
   }>;
   projects: Array<{
-    name: LocalizedText;
-    desc: LocalizedText;
+    name: string;
+    desc: string;
     tech: string;
   }>;
   languages: Array<{
-    lang: LocalizedText;
-    level: LocalizedText;
+    lang: string;
+    level: string;
   }>;
 }
 

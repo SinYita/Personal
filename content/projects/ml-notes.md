@@ -1,15 +1,24 @@
 ---
 id: ml-notes
-title:
-  zh: 机器学习笔记系统
-  en: ML Notes System
-description:
-  zh: 一个支持 LaTeX 公式的机器学习学习笔记平台。包含监督学习、无监督学习、深度学习等章节，以及交互式数据可视化模块。
-  en: An ML study notes platform with LaTeX support. Features chapters on supervised/unsupervised learning, deep learning, and interactive data visualization.
+title: ML Notes System
+description: An ML study platform with structured notes, mathematical formatting, and visual explanations.
 techStack: [Python, FastAPI, Vue.js, MathJax, Matplotlib]
 github: https://github.com/SinYita
 featured: true
 date: 2023-09
 ---
 
-Project content source in Markdown frontmatter.
+## Overview
+
+I built this project to organize machine learning concepts into concise, searchable notes with formula support and chart-based intuition.
+
+## Key Features
+
+- Chapter-based structure for supervised, unsupervised, and deep learning topics.
+- Math-rich content rendering for derivations and notation.
+- Visual examples to explain model behavior and metric tradeoffs.
+
+## Outcomes
+
+- Improved retention by pairing concise text with plotted examples.
+- Created reusable teaching material for peer discussions and interview prep.

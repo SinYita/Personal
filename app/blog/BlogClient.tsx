@@ -1,24 +1,21 @@
 "use client";
 import Link from "next/link";
 import { PostMeta } from "@/lib/posts";
-import { useLanguage } from "@/components/LanguageProvider";
 
 export default function BlogClient({ posts }: { posts: PostMeta[] }) {
-  const { t } = useLanguage();
-
   return (
     <div className="flex flex-col space-y-16 pb-20">
       <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">{t.blog.title}</h1>
+        <h1 className="text-2xl font-semibold">All Posts</h1>
         <p className="text-[var(--muted)] leading-relaxed">
-          {t.blog.desc}
+          Notes, thoughts, and technical writing.
         </p>
       </section>
 
       <section>
         <div className="flex flex-col gap-10">
           {posts.length === 0 ? (
-            <p className="text-[var(--muted)]">{t.blog.empty}</p>
+            <p className="text-[var(--muted)]">No posts available yet.</p>
           ) : (
             posts.map((post) => (
               <div key={post.slug} className="group">

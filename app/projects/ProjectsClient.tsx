@@ -1,23 +1,21 @@
 "use client";
-import type { Project } from "@/lib/projects";
+import Link from "next/link";
+import type { ProjectMeta } from "@/lib/projects";
 import SkillsChart from "@/components/SkillsChart";
-import { useLanguage } from "@/components/LanguageProvider";
 
-export default function ProjectsClient({ projects }: { projects: Project[] }) {
-  const { t, locale } = useLanguage();
-
+export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }) {
   return (
     <div className="flex flex-col space-y-16 pb-20">
       <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">{t.projectsPage.title}</h1>
+        <h1 className="text-2xl font-semibold">Projects</h1>
         <p className="text-[var(--muted)] leading-relaxed">
-          {t.projectsPage.desc}
+          A collection of production work, side projects, and technical experiments.
         </p>
       </section>
 
       {/* Chart Section */}
       <section className="space-y-6">
-        <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">{t.projectsPage.chartTitle}</h2>
+        <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Skill Distribution</h2>
         <div className="border border-[var(--border)] rounded-lg p-6 max-w-xl mx-auto">
           <SkillsChart />
         </div>
@@ -31,24 +29,28 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
             className="group flex flex-col space-y-3"
           >
             <div className="flex items-center gap-3">
-               <h3 className="font-medium text-lg text-[var(--foreground)]">
-                 {typeof project.title === 'string' ? project.title : project.title[locale]}
-               </h3>
+               <h3 className="font-medium text-lg text-[var(--foreground)]">{project.title}</h3>
                {project.featured && (
                 <span className="text-xs border border-[var(--border)] px-1.5 py-0.5 rounded text-[var(--muted)]">
-                  {t.projectsPage.featured}
+                  Featured
                 </span>
               )}
             </div>
             <p className="text-sm text-[var(--muted)] leading-relaxed flex-1">
-              {project.description[locale]}
+              {project.description}
             </p>
             <div className="flex flex-wrap gap-2 text-sm text-[var(--muted)] pt-1">
               {project.techStack.map((tech) => (
                 <span key={tech}>{tech}</span>
               ))}
             </div>
-            <div className="flex gap-4 pt-2">
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link
+                href={`/projects/${project.slug}`}
+                className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
+              >
+                Case Study →
+              </Link>
               {project.github && (
                 <a
                   href={project.github}
@@ -56,7 +58,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                   rel="noopener noreferrer"
                   className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
                 >
-                  {t.projectsPage.github}
+                  GitHub →
                 </a>
               )}
               {project.demo && project.demo !== "/" && (
@@ -66,7 +68,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                   rel="noopener noreferrer"
                   className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
                 >
-                  {t.projectsPage.demo}
+                  Demo →
                 </a>
               )}
             </div>
