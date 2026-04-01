@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import BackButton from "./BackButton";
 import { getPost, getAllPostSlugs } from "@/lib/posts";
 import MarkdownContent from "@/components/MarkdownContent";
+import BackToTopButton from "@/components/BackToTopButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -28,45 +29,48 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <article className="max-w-3xl mx-auto flex flex-col pb-20 w-full">
-      <div className="mb-10">
-        <BackButton />
-      </div>
-
-      <header className="space-y-4 mb-16">
-        <div className="flex flex-col gap-3">
-          <time dateTime={post.date} className="text-sm text-[var(--muted)] font-mono">
-            {post.date}
-          </time>
-          <h1 className="text-3xl font-semibold tracking-tight leading-snug">{post.title}</h1>
+    <>
+      <article className="max-w-3xl mx-auto flex flex-col pb-20 w-full">
+        <div className="mb-10">
+          <BackButton />
         </div>
 
-        {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 pt-2">
-            {post.tags.map((tag) => (
-              <span key={tag} className="text-xs font-medium text-[var(--muted)]">
-                #{tag}
-              </span>
-            ))}
+        <header className="space-y-4 mb-16">
+          <div className="flex flex-col gap-3">
+            <time dateTime={post.date} className="text-sm text-[var(--muted)] font-mono">
+              {post.date}
+            </time>
+            <h1 className="text-3xl font-semibold tracking-tight leading-snug">{post.title}</h1>
           </div>
-        )}
 
-        {post.excerpt && (
-          <p className="text-base text-[var(--muted)] leading-relaxed pt-2">
-            {post.excerpt}
-          </p>
-        )}
-      </header>
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-2">
+              {post.tags.map((tag) => (
+                <span key={tag} className="text-xs font-medium text-[var(--muted)]">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
 
-      <div className="mb-16">
-        <MarkdownContent content={post.content} />
-      </div>
+          {post.excerpt && (
+            <p className="text-base text-[var(--muted)] leading-relaxed pt-2">
+              {post.excerpt}
+            </p>
+          )}
+        </header>
 
-      <hr className="border-t border-[var(--border)] my-8" />
+        <div className="mb-16">
+          <MarkdownContent content={post.content} />
+        </div>
 
-      <footer>
-        <BackButton />
-      </footer>
-    </article>
+        <hr className="border-t border-[var(--border)] my-8" />
+
+        <footer>
+          <BackButton />
+        </footer>
+      </article>
+      <BackToTopButton />
+    </>
   );
 }

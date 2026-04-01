@@ -34,3 +34,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Decap CMS
+
+This site now includes Decap CMS at `/admin`.
+
+- Local dev URL: `http://localhost:3000/admin`
+- Production URL: `https://sinyita.github.io/Personal/admin`
+
+### Local editing
+
+1. Start your Next.js app:
+
+```bash
+npm run dev
+```
+
+2. In another terminal, run Decap local backend:
+
+```bash
+npx decap-server
+```
+
+3. Open `/admin` and edit content collections:
+
+- `posts` -> `content/posts/*.md`
+- `projects` -> `content/projects/*.md`
+- `resume` -> `content/resume.md`
+
+### Notes for production auth
+
+The current backend is configured for GitHub (`SinYita/Personal`).
+For production write access on GitHub Pages, you still need to configure an OAuth flow supported by Decap CMS.

@@ -69,7 +69,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                     </span>
                   </div>
                   {post.excerpt && (
-                    <p className="text-[var(--muted)] leading-relaxed mb-3">
+                    <p className="text-sm text-[var(--muted)] leading-relaxed mb-3">
                       {post.excerpt}
                     </p>
                   )}

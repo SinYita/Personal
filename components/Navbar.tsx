@@ -24,9 +24,13 @@ export default function Navbar() {
       <div className="flex h-full flex-col items-center px-5 py-8 lg:px-5 lg:py-12 text-center">
         {/* Avatar Section */}
         <div className="flex flex-col items-center gap-4 pb-8 lg:pb-12">
-          <div className="h-20 w-20 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110 cursor-pointer">
+          <Link
+            href="/"
+            aria-label="Go to home"
+            className="h-20 w-20 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110"
+          >
             SN
-          </div>
+          </Link>
           <div>
             <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">SinYita</h1>
             <p className="text-sm text-[var(--muted)] mt-1">Full-stack Developer</p>
