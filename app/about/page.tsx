@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
+import { getResumeData } from "@/lib/resumeData";
 
 export const metadata: Metadata = {
   title: "About | SinYita",
@@ -7,5 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutClient />;
+  const resumeData = getResumeData();
+  return <AboutClient resumeData={resumeData} />;
 }

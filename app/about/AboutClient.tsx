@@ -1,8 +1,8 @@
 "use client";
 import { useLanguage } from "@/components/LanguageProvider";
-import { resumeData } from "@/lib/resumeData";
+import type { ResumeData } from "@/lib/resumeData";
 
-export default function AboutClient() {
+export default function AboutClient({ resumeData }: { resumeData: ResumeData }) {
   const { t, locale } = useLanguage();
   const data = resumeData;
 

@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
-import { Project } from "@/lib/projects";
-import { PostMeta } from "@/lib/posts";
+import type { Project } from "@/lib/projects";
+import type { PostMeta } from "@/lib/posts";
 import { SiLeetcode, SiCodeforces } from "react-icons/si";
 import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";

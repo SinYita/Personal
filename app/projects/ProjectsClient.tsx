@@ -1,5 +1,5 @@
 "use client";
-import { Project } from "@/lib/projects";
+import type { Project } from "@/lib/projects";
 import SkillsChart from "@/components/SkillsChart";
 import { useLanguage } from "@/components/LanguageProvider";
 

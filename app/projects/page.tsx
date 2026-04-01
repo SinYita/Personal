@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { projects } from "@/lib/projects";
+import { getAllProjects } from "@/lib/projects";
 import ProjectsClient from "./ProjectsClient";
 
 export const metadata: Metadata = {
@@ -8,5 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
+  const projects = getAllProjects();
   return <ProjectsClient projects={projects} />;
 }

@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
 export interface Project {
   id: string;
   title: string | { zh: string; en: string };
@@ -9,53 +13,34 @@ export interface Project {
   date: string;
 }
 
-export const projects: Project[] = [
-  {
-    id: "personal-website",
-    title: { zh: "个人网站", en: "Personal Website" },
-    description: {
-      zh: "基于 Next.js 构建的个人主页，支持 Markdown 写作、LaTeX 数学公式渲染以及多种图表展示。整合了博客系统、项目展示和个人简历功能。",
-      en: "A personal website built with Next.js supporting Markdown, LaTeX math rendering, and charts. Integrates a blog, project showcase, and resume."
-    },
-    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "KaTeX", "Chart.js"],
-    github: "https://github.com/SinYita/Personal",
-    demo: "/",
-    featured: true,
-    date: "2024-01",
-  },
-  {
-    id: "ml-notes",
-    title: { zh: "机器学习笔记系统", en: "ML Notes System" },
-    description: {
-      zh: "一个支持 LaTeX 公式的机器学习学习笔记平台。包含监督学习、无监督学习、深度学习等章节，以及交互式数据可视化模块。",
-      en: "An ML study notes platform with LaTeX support. Features chapters on supervised/unsupervised learning, deep learning, and interactive data visualization."
-    },
-    techStack: ["Python", "FastAPI", "Vue.js", "MathJax", "Matplotlib"],
-    github: "https://github.com/SinYita",
-    featured: true,
-    date: "2023-09",
-  },
-  {
-    id: "data-viz",
-    title: { zh: "数据可视化仪表盘", en: "Data Viz Dashboard" },
-    description: {
-      zh: "基于 React 和 D3.js 的数据可视化工具，支持多种图表类型（折线图、柱状图、 饼图、热力图），可从 CSV/JSON 导入数据并动态渲染。",
-      en: "A data visualization tool based on React and D3.js supporting multiple chart types. Can import tabular data and dynamically render charts."
-    },
-    techStack: ["React", "D3.js", "TypeScript", "Python", "Pandas"],
-    featured: false,
-    date: "2023-05",
-  },
-  {
-    id: "algorithm-visualizer",
-    title: { zh: "算法可视化工具", en: "Algorithm Visualizer" },
-    description: {
-      zh: "将排序、图遍历、动态规划等经典算法以动画形式呈现，帮助学习者直观理解算法 运行过程。",
-      en: "Classical algorithms (sorting, graph traversal, DP) presented as animations to help learners intuitively understand execution steps."
-    },
-    techStack: ["JavaScript", "Canvas API", "Web Animations API"],
-    github: "https://github.com/SinYita",
-    featured: false,
-    date: "2022-11",
-  },
-];
+const projectsDirectory = path.join(process.cwd(), "content/projects");
+
+export function getAllProjects(): Project[] {
+  if (!fs.existsSync(projectsDirectory)) return [];
+
+  return fs
+    .readdirSync(projectsDirectory)
+    .filter((file) => file.endsWith(".md"))
+    .map((file) => getProject(file.replace(/\.md$/, "")))
+    .filter(Boolean)
+    .sort((a, b) => new Date(b!.date).getTime() - new Date(a!.date).getTime()) as Project[];
+}
+
+export function getProject(slug: string): Project | null {
+  const filePath = path.join(projectsDirectory, `${slug}.md`);
+  if (!fs.existsSync(filePath)) return null;
+
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    id: data.id ?? slug,
+    title: data.title,
+    description: data.description,
+    techStack: data.techStack ?? [],
+    github: data.github,
+    demo: data.demo,
+    featured: Boolean(data.featured),
+    date: data.date ? String(data.date) : "",
+  };
+}
