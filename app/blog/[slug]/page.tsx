@@ -38,7 +38,7 @@ export default async function BlogPostPage({ params }: Props) {
           <time dateTime={post.date} className="text-sm text-[var(--muted)] font-mono">
             {post.date}
           </time>
-          <h1 className="text-4xl font-semibold leading-snug">{post.title}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight leading-snug">{post.title}</h1>
         </div>
 
         {post.tags && post.tags.length > 0 && (
@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: Props) {
         )}
 
         {post.excerpt && (
-          <p className="text-lg text-[var(--muted)] leading-relaxed pt-2">
+          <p className="text-base text-[var(--muted)] leading-relaxed pt-2">
             {post.excerpt}
           </p>
         )}

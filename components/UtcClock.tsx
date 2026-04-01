@@ -10,7 +10,7 @@ function formatBerlinTime(date: Date) {
     hour12: false,
   }).format(date);
 
-  return `🇩🇪 ${time}`;
+  return `Berlin ${time}`;
 }
 
 export default function UtcClock() {

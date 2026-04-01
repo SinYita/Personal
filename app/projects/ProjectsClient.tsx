@@ -41,116 +41,111 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
         );
 
   return (
-    <div className="flex flex-col space-y-16 pb-20">
-      <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">Projects</h1>
-        <p className="text-[var(--muted)] leading-relaxed">
-          A collection of production work, side projects, and technical experiments.
-        </p>
-      </section>
+    <div className="grid gap-10 pb-20 lg:grid-cols-[minmax(0,1fr)_180px]">
+      <div className="space-y-16">
+        <section className="space-y-4">
+          <h1 className="text-3xl font-semibold tracking-tight">Projects</h1>
+          <p className="text-base text-[var(--muted)] leading-relaxed">
+            A collection of production work, side projects, and technical experiments.
+          </p>
+        </section>
 
-      {/* Skill Tags */}
-      <section className="space-y-6">
-        <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Skill Tags</h2>
-        <div className="flex flex-wrap gap-3">
-          <button
-            key={ALL_TAG}
-            onClick={() => handleTagClick(ALL_TAG)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
-              selectedTags.has(ALL_TAG)
-                ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
-                : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
-            }`}
-          >
-            {ALL_TAG}
-          </button>
-          {skillTags.map((tag) => (
+        <div className="flex flex-col gap-10">
+          {filteredProjects.length === 0 ? (
+            <p className="text-[var(--muted)]">No projects match the selected tags.</p>
+          ) : (
+            filteredProjects.map((project) => (
+              <article
+                key={project.id}
+                className="group flex flex-col gap-4"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="font-medium text-lg text-[var(--foreground)] hover:text-[var(--accent)] transition-colors"
+                    >
+                      {project.title}
+                    </Link>
+                    {project.featured && (
+                      <span className="text-xs border border-[var(--border)] px-1.5 py-0.5 rounded text-[var(--muted)]">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-[var(--muted)] leading-relaxed max-w-2xl">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from(new Set([...project.tags, ...project.techStack])).map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--muted)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-4 pt-1">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
+                      >
+                        GitHub →
+                      </a>
+                    )}
+                    {project.demo && project.demo !== "/" && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
+                      >
+                        Demo →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))
+          )}
+        </div>
+      </div>
+
+      <aside className="hidden lg:block">
+        <div className="sticky top-28 space-y-4 border-l border-[var(--border)] pl-2">
+          <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={tag}
-              onClick={() => handleTagClick(tag)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
-                selectedTags.has(tag)
+              key={ALL_TAG}
+              onClick={() => handleTagClick(ALL_TAG)}
+              className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
+                selectedTags.has(ALL_TAG)
                   ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
                   : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
               }`}
             >
-              {tag}
+              {ALL_TAG}
             </button>
-          ))}
+            {skillTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => handleTagClick(tag)}
+                className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
+                  selectedTags.has(tag)
+                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                    : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
-      </section>
-
-      {/* Project Grid */}
-      <div className="flex flex-col gap-12">
-        {filteredProjects.length === 0 ? (
-          <p className="text-[var(--muted)]">No projects match the selected tags.</p>
-        ) : (
-          filteredProjects.map((project) => (
-            <article
-              key={project.id}
-              className="group flex flex-col gap-4 border-t border-[var(--border)] pt-8"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <h3 className="font-medium text-lg text-[var(--foreground)]">{project.title}</h3>
-                  {project.featured && (
-                    <span className="text-xs border border-[var(--border)] px-1.5 py-0.5 rounded text-[var(--muted)]">
-                      Featured
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-2xl">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-4 pt-1">
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
-                  >
-                    Case Study →
-                  </Link>
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
-                    >
-                      GitHub →
-                    </a>
-                  )}
-                  {project.demo && project.demo !== "/" && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
-                    >
-                      Demo →
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-              </div>
-              <div className="flex flex-wrap gap-2 text-sm text-[var(--muted)]">
-                {project.techStack.map((tech) => (
-                  <span key={tech}>{tech}</span>
-                ))}
-              </div>
-            </article>
-          ))
-        )}
-      </div>
+      </aside>
     </div>
   );
 }

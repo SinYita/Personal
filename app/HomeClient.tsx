@@ -48,8 +48,11 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
         <h2 className="text-xl font-semibold mb-8">Featured Projects</h2>
         <div className="grid gap-x-8 gap-y-12 md:grid-cols-2">
           {projects.filter(p => p.featured).map((project) => (
-            <div key={project.id} className="group flex flex-col space-y-3">
-              <div className="flex items-center gap-3">
+            <article
+              key={project.id}
+              className="group flex flex-col space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--code-bg)]/30 p-5 sm:p-6 transition-colors hover:border-[var(--accent)]/30"
+            >
+              <div className="flex items-center gap-3 flex-wrap">
                 <Link 
                   href={`/projects/${project.slug}`}
                   className="font-medium text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
@@ -65,19 +68,35 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
               <p className="text-sm text-[var(--muted)] leading-relaxed flex-grow">
                 {project.description}
               </p>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]">
-                    {tag}
-                  </span>
-                ))}
+              <div className="space-y-2">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Tags</div>
+                <div className="flex flex-wrap gap-2">
+                  {Array.from(new Set([...project.tags, ...project.techStack])).map((tag) => (
+                    <span key={tag} className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-2 flex-wrap text-sm text-[var(--muted)] pt-1">
-                {project.techStack.map(tech => (
-                  <span key={tech}>{tech}</span>
-                ))}
+              <div className="flex flex-wrap gap-4 pt-1">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
+                >
+                  View Project →
+                </Link>
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
+                  >
+                    GitHub →
+                  </a>
+                )}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>

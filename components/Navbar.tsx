@@ -3,34 +3,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { useState } from "react";
-import { IoChevronDown } from "react-icons/io5";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
 
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/projects", label: "Projects" },
-    {
-      href: "/blog",
-      label: "BLOG",
-      children: [
-        { href: "/blog?topic=technical", label: "Technical" },
-        { href: "/blog?topic=solutions", label: "Solutions" },
-      ],
-    },
+    { href: "/blog", label: "BLOGS" },
     { href: "/about", label: "About" },
   ];
 
   const isActive = (href: string) => {
     if (href === "/blog") return pathname.startsWith("/blog");
     return pathname === href;
-  };
-
-  const toggleMenu = (href: string) => {
-    setExpandedMenu(expandedMenu === href ? null : href);
   };
 
   return (
@@ -51,61 +37,16 @@ export default function Navbar() {
           <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--muted)] w-full lg:w-auto">
             {navLinks.map((link) => (
               <li key={link.href} className="lg:w-full">
-                {link.children ? (
-                  <div className="relative w-full">
-                    <Link
-                      href={link.href}
-                      className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
-                        isActive(link.href)
-                          ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
-                          : "text-[var(--muted)]"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                    <button
-                      type="button"
-                      aria-label={`Toggle ${link.label} submenu`}
-                      onClick={() => toggleMenu(link.href)}
-                      className={`absolute right-0 top-1/2 -translate-y-1/2 px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
-                        isActive(link.href)
-                          ? "text-[var(--foreground)]"
-                          : "text-[var(--muted)]"
-                      }`}
-                    >
-                      <IoChevronDown
-                        className={`transition-transform duration-200 text-xs ${
-                          expandedMenu === link.href ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
-                      isActive(link.href)
-                        ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
-                        : "text-[var(--muted)]"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-                {link.children && expandedMenu === link.href && (
-                  <ul className="mt-2 space-y-1 text-xs tracking-[0.12em] normal-case">
-                    {link.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          className="block px-2 py-1 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors text-center"
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <Link
+                  href={link.href}
+                  className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
+                    isActive(link.href)
+                      ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
+                      : "text-[var(--muted)]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>

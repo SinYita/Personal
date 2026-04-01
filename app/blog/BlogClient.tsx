@@ -41,92 +41,95 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
         );
 
   return (
-    <div className="flex flex-col space-y-16 pb-20">
-      <section className="space-y-4">
-        <h1 className="text-2xl font-semibold">All Posts</h1>
-        <p className="text-[var(--muted)] leading-relaxed">
-          Notes, thoughts, and technical writing.
-        </p>
-      </section>
+    <div className="grid gap-10 pb-20 lg:grid-cols-[minmax(0,1fr)_160px]">
+      <div className="space-y-16">
+        <section className="space-y-4">
+          <h1 className="text-3xl font-semibold tracking-tight">All Posts</h1>
+          <p className="text-base text-[var(--muted)] leading-relaxed">
+            Notes, thoughts, and technical writing.
+          </p>
+        </section>
 
-      {/* Tag Filter */}
+        <section>
+          <div className="flex flex-col gap-10">
+            {filteredPosts.length === 0 ? (
+              <p className="text-[var(--muted)]">No posts available yet.</p>
+            ) : (
+              filteredPosts.map((post) => (
+                <div key={post.slug} className="group">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2 sm:gap-4">
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="font-medium text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
+                    >
+                      {post.title}
+                    </Link>
+                    <span className="text-sm text-[var(--muted)] font-mono shrink-0">
+                      {post.date}
+                    </span>
+                  </div>
+                  {post.excerpt && (
+                    <p className="text-[var(--muted)] leading-relaxed mb-3">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {post.tags.map((tag) => (
+                        <button
+                          key={tag}
+                          onClick={() => handleTagClick(tag)}
+                          className={`text-xs transition-colors cursor-pointer ${
+                            selectedTags.has(tag)
+                              ? "text-[var(--accent)]"
+                              : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                          }`}
+                        >
+                          #{tag}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+      </div>
+
       {allTags.length > 0 && (
-        <section className="space-y-6">
-          <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
-          <div className="flex flex-wrap gap-3">
-            <button
-              key={ALL_TAG}
-              onClick={() => handleTagClick(ALL_TAG)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
-                selectedTags.has(ALL_TAG)
-                  ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
-                  : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
-              }`}
-            >
-              {ALL_TAG}
-            </button>
-            {allTags.map((tag) => (
+        <aside className="hidden lg:block">
+          <div className="sticky top-28 space-y-4 border-l border-[var(--border)] pl-2">
+            <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
+            <div className="flex flex-wrap gap-2">
               <button
-                key={tag}
-                onClick={() => handleTagClick(tag)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
-                  selectedTags.has(tag)
+                key={ALL_TAG}
+                onClick={() => handleTagClick(ALL_TAG)}
+                className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
+                  selectedTags.has(ALL_TAG)
                     ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
                     : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
                 }`}
               >
-                #{tag}
+                {ALL_TAG}
               </button>
-            ))}
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => handleTagClick(tag)}
+                  className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
+                    selectedTags.has(tag)
+                      ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                      : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
+                  }`}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
           </div>
-        </section>
+        </aside>
       )}
-
-      <section>
-        <div className="flex flex-col gap-10">
-          {filteredPosts.length === 0 ? (
-            <p className="text-[var(--muted)]">No posts available yet.</p>
-          ) : (
-            filteredPosts.map((post) => (
-              <div key={post.slug} className="group">
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2 sm:gap-4">
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="font-medium text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
-                  >
-                    {post.title}
-                  </Link>
-                  <span className="text-sm text-[var(--muted)] font-mono shrink-0">
-                    {post.date}
-                  </span>
-                </div>
-                {post.excerpt && (
-                  <p className="text-[var(--muted)] leading-relaxed mb-3">
-                    {post.excerpt}
-                  </p>
-                )}
-                {post.tags && post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {post.tags.map((tag) => (
-                      <button
-                        key={tag}
-                        onClick={() => handleTagClick(tag)}
-                        className={`text-xs transition-colors cursor-pointer ${
-                          selectedTags.has(tag)
-                            ? "text-[var(--accent)]"
-                            : "text-[var(--muted)] hover:text-[var(--foreground)]"
-                        }`}
-                      >
-                        #{tag}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-      </section>
     </div>
   );
 }

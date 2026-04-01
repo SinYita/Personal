@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAllProjects } from "@/lib/projects";
 import ProjectsClient from "./ProjectsClient";
 import { Suspense } from "react";
+import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata: Metadata = {
   title: "Projects | SinYita",
@@ -11,8 +12,11 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   const projects = getAllProjects();
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProjectsClient projects={projects} />
-    </Suspense>
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectsClient projects={projects} />
+      </Suspense>
+      <BackToTopButton />
+    </>
   );
 }

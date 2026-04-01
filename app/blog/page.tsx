@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import BlogClient from "./BlogClient";
 import { Suspense } from "react";
+import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata: Metadata = {
   title: "Blog | SinYita",
@@ -12,8 +13,11 @@ export default function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <BlogClient posts={posts} />
-    </Suspense>
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <BlogClient posts={posts} />
+      </Suspense>
+      <BackToTopButton />
+    </>
   );
 }
