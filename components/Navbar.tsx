@@ -21,11 +21,11 @@ export default function Navbar() {
   return (
     <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-36 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
       <div className="flex h-full flex-col px-4 py-4 lg:px-3 lg:py-5">
-        <div className="flex items-center gap-3 pb-5 lg:pb-8">
+        <div className="flex flex-col items-start gap-3 pb-5 lg:pb-8">
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-sm font-semibold text-white shadow-lg">
             SN
           </div>
-          <div>
+          <div className="space-y-1">
             <div className="text-base font-semibold leading-none">SinYita</div>
             <div className="text-[11px] text-[var(--muted)] mt-1 leading-tight">Full-stack Developer</div>
           </div>
