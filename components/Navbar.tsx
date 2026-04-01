@@ -52,7 +52,7 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <li key={link.href} className="lg:w-full">
                 {link.children ? (
-                  <div className="flex items-center justify-center gap-1">
+                  <div className="relative w-full">
                     <Link
                       href={link.href}
                       className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
@@ -67,7 +67,7 @@ export default function Navbar() {
                       type="button"
                       aria-label={`Toggle ${link.label} submenu`}
                       onClick={() => toggleMenu(link.href)}
-                      className={`px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
+                      className={`absolute right-0 top-1/2 -translate-y-1/2 px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] ${
                         isActive(link.href)
                           ? "text-[var(--foreground)]"
                           : "text-[var(--muted)]"

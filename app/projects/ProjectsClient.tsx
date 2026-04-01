@@ -7,24 +7,34 @@ import type { ProjectMeta } from "@/lib/projects";
 export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }) {
   const searchParams = useSearchParams();
   const selectedTag = searchParams.get("tag");
+  const ALL_TAG = "All";
   const [selectedTags, setSelectedTags] = useState<Set<string>>(
-    selectedTag ? new Set([selectedTag]) : new Set()
+    selectedTag ? new Set([selectedTag]) : new Set([ALL_TAG])
   );
 
   const skillTags = Array.from(new Set(projects.flatMap((project) => project.techStack))).sort();
 
   const handleTagClick = (tag: string) => {
+    if (tag === ALL_TAG) {
+      setSelectedTags(new Set([ALL_TAG]));
+      return;
+    }
+
     const newTags = new Set(selectedTags);
+    newTags.delete(ALL_TAG);
     if (newTags.has(tag)) {
       newTags.delete(tag);
     } else {
       newTags.add(tag);
     }
+    if (newTags.size === 0) {
+      newTags.add(ALL_TAG);
+    }
     setSelectedTags(newTags);
   };
 
   const filteredProjects =
-    selectedTags.size === 0
+    selectedTags.has(ALL_TAG)
       ? projects
       : projects.filter((project) =>
           Array.from(selectedTags).every((tag) => project.techStack.includes(tag))
@@ -43,6 +53,17 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
       <section className="space-y-6">
         <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Skill Tags</h2>
         <div className="flex flex-wrap gap-3">
+          <button
+            key={ALL_TAG}
+            onClick={() => handleTagClick(ALL_TAG)}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer ${
+              selectedTags.has(ALL_TAG)
+                ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
+                : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
+            }`}
+          >
+            {ALL_TAG}
+          </button>
           {skillTags.map((tag) => (
             <button
               key={tag}
@@ -67,7 +88,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
           filteredProjects.map((project) => (
             <article
               key={project.id}
-              className="group grid gap-6 border-t border-[var(--border)] pt-8 lg:grid-cols-[minmax(0,1fr)_240px]"
+              className="group flex flex-col gap-4 border-t border-[var(--border)] pt-8"
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-3 flex-wrap">
@@ -111,8 +132,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
                 </div>
               </div>
 
-              <div className="space-y-4 lg:pt-1 lg:text-right">
-                <div className="flex flex-wrap gap-2 lg:justify-end">
+              <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
@@ -121,12 +141,11 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
                       {tag}
                     </span>
                   ))}
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm text-[var(--muted)] lg:justify-end">
-                  {project.techStack.map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 text-sm text-[var(--muted)]">
+                {project.techStack.map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
               </div>
             </article>
           ))
