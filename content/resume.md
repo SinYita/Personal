@@ -1,45 +1,56 @@
 ---
-name: SinYita
-email: contact@example.com
+name: Weiyuan Du
+email: weiyuan.du@tum.de
 github: github.com/SinYita
-title: Full-stack Developer / AI Enthusiast
-location: China
+title: Machine Learning, C++, HPC,Python
+location: Germany
 summary: Solid full-stack developer with a strong interest in Machine Learning and Data Science. Skilled at building modern web apps with React/Next.js and capable of Python backend development and ML model research.
 education:
-  - degree: B.E. in Computer Science
-    school: XX University
-    duration: 2020 - 2024
-    gpa: 3.8/4.0
+  - degree: B.S. in Information Engineering
+    school: Technical University of Munich
+    duration: 2023 - 2026
+    gpa: 1.7/1.0
     highlights:
-      - "Core: Data Structures, Algorithms, Operating Systems, Computer Networks"
-      - "Math: Linear Algebra, Probability, Information Theory"
-      - "Thesis: Text Summarization with Transformer Architectures"
+      - 'Core: Data Structures and Algorithms, Operating Systems, Computer Networks'
+      - 'Math: Linear Algebra, Probability, Information Theory, Analysis'
+      - 'Practical Course: Applied Machine Learning'
 experience:
-  - title: Front-end Intern
-    company: Tech Corp
-    duration: 2023.07 - 2023.09
+  - title: Research Assistant
+    company: Technical University of Munich
+    duration: 2025.10 - 2026.03
     highlights:
       - Built front-end features for an internal management system with React and TypeScript
       - Optimized critical page performance and reduced first-contentful paint by around 40%
       - Collaborated with backend engineers on REST API specifications and integration
-  - title: Open Source Contributor
-    company: GitHub
-    duration: 2022 - Present
+  - title: Tutor of Machine Learning
+    company: Technical University of Munich
+    duration: 2025.10 - 2026.01
     highlights:
       - Submitted pull requests to multiple open-source repositories for fixes and new features
       - Maintained personal repositories and grew public adoption through consistent updates
       - Wrote technical posts and participated in developer community discussions
 skills:
-  - category: Languages
-    items: [TypeScript, Python, JavaScript, SQL, Bash]
-  - category: Front-end
-    items: [React, Next.js, Vue.js, Tailwind CSS]
-  - category: Back-end and Databases
-    items: [Node.js, FastAPI, PostgreSQL, MongoDB, Redis]
-  - category: AI and Data
-    items: [PyTorch, Scikit-learn, Pandas, NumPy, Matplotlib]
+  - category: Programming Languages
+    items:
+      - C++
+      - Python
+      - PostgreSQL
+      - Bash
+  - category: Machine Learning and Data Science
+    items:
+      - PyTorch
+      - Scikit-learn
+      - Pandas
+      - NumPy
+      - Matplotlib
   - category: DevOps and Tooling
-    items: [Git, Docker, Linux, GitHub Actions, Vercel]
+    items:
+      - Git
+      - Docker
+      - Linux
+      - GitHub Actions
+      - CMake
+      - Makefile
 projects:
   - name: Personal Website
     desc: Personal homepage built with Next.js, supporting Markdown, LaTeX, and charts.
@@ -51,7 +62,9 @@ languages:
   - lang: Chinese
     level: Native
   - lang: English
-    level: Professional Working (CET-6)
+    level: Professional Working
+  - lang: German
+    level: B2
 ---
 
 Resume data source in Markdown frontmatter.
