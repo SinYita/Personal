@@ -7,6 +7,11 @@ type SearchResult = {
     url?: string;
     excerpt?: string;
     meta: Record<string, string>;
+    sub_results?: Array<{
+      title?: string;
+      url?: string;
+      excerpt?: string;
+    }>;
   }>;
 };
 
@@ -40,9 +45,15 @@ export default function SearchBar() {
   const pagefindRef = useRef<PagefindModule | null>(null);
   const debounceRef = useRef<number | null>(null);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Array<{ url?: string; excerpt?: string; meta: Record<string, string> }>>([]);
+  const [results, setResults] = useState<Array<{
+    url: string;
+    pageTitle: string;
+    sectionTitle?: string;
+    snippet: string;
+  }>>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -50,13 +61,25 @@ export default function SearchBar() {
 
     async function init() {
       try {
-        const pagefind = await loadPagefind(`${basePath}/pagefind/pagefind.js`);
+        const modulePath = `${basePath}/pagefind/pagefind.js`;
+        const probe = await fetch(modulePath, { method: "GET", cache: "no-store" });
+        if (!probe.ok) {
+          if (!mounted) return;
+          setIsAvailable(false);
+          setIsReady(false);
+          return;
+        }
+
+        const pagefind = await loadPagefind(modulePath);
         await pagefind.options({ excerptLength: 80 });
         if (!mounted) return;
         pagefindRef.current = pagefind;
         setIsReady(true);
+        setIsAvailable(true);
       } catch (error) {
-        console.error("Pagefind failed to load", error);
+        if (!mounted) return;
+        setIsAvailable(false);
+        setIsReady(false);
       }
     }
 
@@ -76,6 +99,13 @@ export default function SearchBar() {
     }
 
     const term = query.trim();
+    if (!isAvailable) {
+      setResults([]);
+      setIsOpen(false);
+      setIsLoading(false);
+      return;
+    }
+
     if (!term) {
       setResults([]);
       setIsOpen(false);
@@ -98,7 +128,24 @@ export default function SearchBar() {
         const resolved = await Promise.all(
           searchResult.results.slice(0, 6).map((result) => result.data())
         );
-        setResults(resolved);
+
+        const normalized = resolved.map((item) => {
+          const primarySubResult = item.sub_results?.[0];
+          const pageTitle = item.meta.title || item.meta.url || "Untitled result";
+          const sectionTitle = primarySubResult?.title?.trim();
+          const preferredUrl = primarySubResult?.url || item.meta.url || item.url;
+          const sourceExcerpt = primarySubResult?.excerpt || item.excerpt || "";
+          const plainExcerpt = stripHtml(sourceExcerpt);
+
+          return {
+            url: resolveResultUrl(preferredUrl),
+            pageTitle,
+            sectionTitle,
+            snippet: createSnippet(plainExcerpt, term),
+          };
+        });
+
+        setResults(normalized);
       } catch (error) {
         console.error("Pagefind search failed", error);
         setResults([]);
@@ -112,7 +159,7 @@ export default function SearchBar() {
         window.clearTimeout(debounceRef.current);
       }
     };
-  }, [query]);
+  }, [query, isAvailable]);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -154,12 +201,13 @@ export default function SearchBar() {
         <input
           ref={inputRef}
           type="search"
-          placeholder={isReady ? "Search..." : "Loading search..."}
+          placeholder={isAvailable ? (isReady ? "Search..." : "Loading search...") : "Search unavailable in dev"}
           aria-label="Search"
           value={query}
+          disabled={!isAvailable}
           onChange={(event) => setQuery(event.target.value)}
           onFocus={() => {
-            if (query.trim()) {
+            if (isAvailable && query.trim()) {
               setIsOpen(true);
             }
           }}
@@ -167,12 +215,17 @@ export default function SearchBar() {
         />
       </label>
 
-      {isOpen && query.trim() && (
+      {isOpen && query.trim() && isAvailable && (
         <div className="search-panel absolute right-0 top-full z-50 mt-3 w-[min(42rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--background)] shadow-[0_30px_80px_rgba(0,0,0,0.18)] backdrop-blur-md">
           <div className="border-b border-[var(--border)] px-4 py-3 text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
             {isLoading ? "Searching..." : isReady ? "Search Results" : "Search unavailable"}
           </div>
-          <div className="max-h-[min(70vh,34rem)] overflow-auto p-4">
+          <div
+            data-lenis-prevent
+            data-lenis-prevent-wheel
+            onWheelCapture={(event) => event.stopPropagation()}
+            className="max-h-[min(70vh,34rem)] overflow-auto overscroll-contain p-4"
+          >
             {!isReady ? (
               <p className="text-sm text-[var(--muted)]">Search is loading.</p>
             ) : isLoading ? (
@@ -182,19 +235,21 @@ export default function SearchBar() {
             ) : (
               <ul className="space-y-4">
                 {results.map((result) => (
-                  <li key={result.meta.url || result.meta.title} className="space-y-1 border-b border-[var(--border)] pb-4 last:border-b-0 last:pb-0">
+                  <li key={result.url} className="space-y-1 border-b border-[var(--border)] pb-4 last:border-b-0 last:pb-0">
                     <a
-                      href={resolveResultUrl(result.meta.url || result.url)}
+                      href={result.url}
                       onClick={() => setIsOpen(false)}
                       className="font-medium text-[var(--foreground)] hover:text-[var(--muted)] transition-colors"
                     >
-                      {result.meta.title || result.meta.url || "Untitled result"}
+                      {result.pageTitle}
                     </a>
-                    {result.excerpt && (
-                      <p
-                        className="text-sm text-[var(--muted)] leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: result.excerpt }}
-                      />
+                    {result.sectionTitle && result.sectionTitle !== result.pageTitle && (
+                      <p className="text-xs uppercase tracking-wider text-[var(--muted)]">
+                        {result.sectionTitle}
+                      </p>
+                    )}
+                    {result.snippet && (
+                      <p className="text-sm text-[var(--muted)] leading-relaxed">{result.snippet}</p>
                     )}
                   </li>
                 ))}
@@ -205,4 +260,41 @@ export default function SearchBar() {
       )}
     </div>
   );
+}
+
+function stripHtml(value: string) {
+  return value
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function createSnippet(text: string, term: string, maxLength = 180) {
+  if (!text) return "";
+
+  const normalizedText = text.trim();
+  const normalizedTerm = term.trim().toLowerCase();
+
+  if (!normalizedTerm) {
+    return normalizedText.length > maxLength
+      ? `${normalizedText.slice(0, maxLength).trimEnd()}...`
+      : normalizedText;
+  }
+
+  const lowerText = normalizedText.toLowerCase();
+  const index = lowerText.indexOf(normalizedTerm);
+
+  if (index === -1) {
+    return normalizedText.length > maxLength
+      ? `${normalizedText.slice(0, maxLength).trimEnd()}...`
+      : normalizedText;
+  }
+
+  const context = Math.floor((maxLength - normalizedTerm.length) / 2);
+  const start = Math.max(0, index - context);
+  const end = Math.min(normalizedText.length, index + normalizedTerm.length + context);
+
+  const prefix = start > 0 ? "..." : "";
+  const suffix = end < normalizedText.length ? "..." : "";
+  return `${prefix}${normalizedText.slice(start, end).trim()}${suffix}`;
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { createPortal } from "react-dom";
 
 type GalleryItem = {
   src: string;
@@ -59,7 +58,6 @@ const galleryItems: GalleryItem[] = [
 
 export default function GalleryClient() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [mounted, setMounted] = useState(false);
   const activeItem = activeIndex === null ? null : galleryItems[activeIndex];
 
   const close = () => setActiveIndex(null);
@@ -68,10 +66,6 @@ export default function GalleryClient() {
     const normalized = (nextIndex + galleryItems.length) % galleryItems.length;
     setActiveIndex(normalized);
   };
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -86,123 +80,106 @@ export default function GalleryClient() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeIndex]);
 
-  useEffect(() => {
-    if (!mounted) return;
-    const previousOverflow = document.body.style.overflow;
-
-    if (activeIndex !== null) {
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [activeIndex, mounted]);
-
   return (
     <div className="space-y-8 pb-20">
-      <section className="space-y-4 max-w-3xl">
-        <h1 className="text-3xl font-semibold tracking-tight uppercase text-center">Gallery</h1>
-        <p className="text-base text-[var(--muted)] leading-relaxed text-center max-w-2xl mx-auto">
-          A small collection of photographs. Click any image to open a preview, then use the arrow controls
-          or keyboard keys to move through the set.
-        </p>
-      </section>
+      {activeItem === null ? (
+        <section className="space-y-4 max-w-3xl">
+          <h1 className="text-3xl font-semibold tracking-tight uppercase text-center">Gallery</h1>
+          <p className="text-base text-[var(--muted)] leading-relaxed text-center max-w-2xl mx-auto">
+            A small collection of photographs. Click any image to open a preview, then use the arrow controls
+            or keyboard keys to move through the set.
+          </p>
+        </section>
+      ) : null}
 
-      <section>
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[170px] gap-4 md:gap-5 items-start">
-          {galleryItems.map((item, index) => (
-            <button
-              key={item.src}
-              type="button"
-              onClick={() => open(index)}
-              className={`group relative overflow-hidden rounded-2xl bg-[var(--code-bg)] border border-[var(--border)] ${item.className}`}
-              aria-label={`Open ${item.title}`}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute inset-x-0 bottom-0 p-4 text-left text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="text-sm font-medium">{item.title}</div>
-                <div className="text-xs text-white/80 mt-1">{item.caption}</div>
+      <AnimatePresence mode="wait" initial={false}>
+        {activeItem && activeIndex !== null ? (
+          <motion.section
+            key="viewer"
+            className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-5xl flex-col justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="mb-4 flex justify-end">
+              <button
+                type="button"
+                onClick={close}
+                className="text-xs font-medium tracking-wider uppercase text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
+                aria-label="Back to gallery grid"
+              >
+                Back
+              </button>
+            </div>
+
+            <motion.img
+              key={activeItem.src}
+              src={activeItem.src}
+              alt={activeItem.alt}
+              className="mx-auto h-[min(70vh,720px)] w-full object-contain"
+              initial={{ opacity: 0, scale: 0.985 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.985 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+            />
+
+            <div className="mt-5 flex items-end justify-between gap-6">
+              <div className="max-w-[70%] text-[var(--foreground)]">
+                <p className="text-xs font-semibold tracking-[0.24em] uppercase">{activeItem.title}</p>
+                <p className="mt-1 text-xs text-[var(--muted)]">{activeItem.caption}</p>
+                <p className="mt-1 text-xs text-[var(--muted)]">{activeIndex + 1} / {galleryItems.length}</p>
               </div>
-            </button>
-          ))}
-        </div>
-      </section>
 
-      {mounted
-        ? createPortal(
-            <AnimatePresence>
-              {activeItem && activeIndex !== null && (
-                <motion.div
-                  className="fixed inset-0 z-[9999] bg-black/92"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={close}
+              <div className="flex items-center gap-4 text-[var(--foreground)] shrink-0">
+                <button
+                  type="button"
+                  onClick={() => goTo(activeIndex - 1)}
+                  className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-[var(--muted)]"
+                  aria-label="Previous image"
                 >
-                  <div className="absolute inset-0" onClick={(event) => event.stopPropagation()}>
-                    <div className="relative h-full w-full">
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.img
-                          key={activeItem.src}
-                          src={activeItem.src}
-                          alt={activeItem.alt}
-                          className="h-full w-full object-contain"
-                          initial={{ opacity: 0, scale: 0.98 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.98 }}
-                          transition={{ duration: 0.24, ease: "easeOut" }}
-                        />
-                      </AnimatePresence>
-
-                      <button
-                        type="button"
-                        onClick={close}
-                        className="absolute right-5 top-5 rounded-full border border-white/30 bg-black/40 px-3 py-1.5 text-xs font-medium tracking-wider text-white transition-colors hover:bg-black/60"
-                        aria-label="Close preview"
-                      >
-                        CLOSE
-                      </button>
-
-                      <div className="absolute bottom-5 right-5 flex items-center gap-4 text-white/90">
-                        <button
-                          type="button"
-                          onClick={() => goTo(activeIndex - 1)}
-                          className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-white"
-                          aria-label="Previous image"
-                        >
-                          Prev
-                        </button>
-                        <span className="text-white/50">/</span>
-                        <button
-                          type="button"
-                          onClick={() => goTo(activeIndex + 1)}
-                          className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-white"
-                          aria-label="Next image"
-                        >
-                          Next
-                        </button>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 max-w-[70vw] text-white/80">
-                        <p className="text-xs font-semibold tracking-[0.24em] uppercase">{activeItem.title}</p>
-                        <p className="mt-1 text-xs text-white/65">{activeIndex + 1} / {galleryItems.length}</p>
-                      </div>
-                    </div>
+                  Prev
+                </button>
+                <span className="text-[var(--muted)]">/</span>
+                <button
+                  type="button"
+                  onClick={() => goTo(activeIndex + 1)}
+                  className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-[var(--muted)]"
+                  aria-label="Next image"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </motion.section>
+        ) : (
+          <motion.section key="grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[170px] gap-4 md:gap-5 items-start">
+              {galleryItems.map((item, index) => (
+                <button
+                  key={item.src}
+                  type="button"
+                  onClick={() => open(index)}
+                  className={`group relative overflow-hidden rounded-2xl bg-[var(--code-bg)] border border-[var(--border)] ${item.className}`}
+                  aria-label={`Open ${item.title}`}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-left text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="text-sm font-medium">{item.title}</div>
+                    <div className="text-xs text-white/80 mt-1">{item.caption}</div>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>,
-            document.body
-          )
-        : null}
+                </button>
+              ))}
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
