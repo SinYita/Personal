@@ -1,8 +1,11 @@
 ---
-title: "Deriving Backpropagation with LaTeX"
-date: "2024-01-15"
-tags: ["Machine Learning", "Deep Learning", "Mathematics"]
-excerpt: "An in-depth exploration of the mathematical principles behind backpropagation in neural networks, deriving the complete gradient calculation process using the chain rule and LaTeX."
+title: Deriving Backpropagation with LaTeX
+date: 2024-01-15
+tags:
+  - Machine Learning
+  - Deep Learning
+  - Mathematics
+excerpt: An in-depth exploration of the mathematical principles behind backpropagation in neural networks, deriving the complete gradient calculation process using the chain rule and LaTeX.
 ---
 
 # Deriving Backpropagation with LaTeX
@@ -25,7 +28,7 @@ $$a^{(l)} = \sigma(z^{(l)})$$
 
 For Mean Squared Error (MSE) loss:
 
-$$\mathcal{L} = \frac{1}{2} \| a^{(L)} - y \|^2$$
+$$\mathcal{L} = \frac{1}{2} | a^{(L)} - y |^2$$
 
 ## 3. Chain Rule and Gradient Calculation
 
