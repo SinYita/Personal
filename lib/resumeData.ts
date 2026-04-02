@@ -10,6 +10,7 @@ export interface ResumeData {
   leetcode?: string;
   codeforces?: string;
   hackerrank?: string;
+  atcoder?: string;
   avatar?: string;
   homeHeading: string;
   homeSubtitle: string;

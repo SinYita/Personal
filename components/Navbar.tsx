@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SiHackerrank } from "react-icons/si";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
@@ -88,9 +87,6 @@ export default function Navbar({ profile }: { profile: ResumeData }) {
           </a>
           <a href={toHref(profile.linkedin)} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
             <FaLinkedin className="text-lg" />
-          </a>
-          <a href={toHref(profile.hackerrank)} target="_blank" rel="noreferrer" aria-label="Hackerrank" className="hover:text-[#2EC866] transition-colors">
-            <SiHackerrank className="text-lg" />
           </a>
           <a href={`mailto:${profile.email}`} aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
             <MdEmail className="text-[1.1rem]" />

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
 import type { ResumeData } from "@/lib/resumeData";
-import { SiLeetcode, SiCodeforces, SiHackerrank } from "react-icons/si";
+import { SiLeetcode, SiCodeforces, SiHackerrank, SiAtcoder } from "react-icons/si";
 import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
@@ -48,6 +48,9 @@ export default function HomeClient({
               </a>
               <a href={toHttps(resumeData.hackerrank || "")} target="_blank" rel="noreferrer" className="hover:text-[#2EC866] transition-colors" aria-label="Hackerrank">
                 <SiHackerrank className="text-xl" />
+              </a>
+              <a href={toHttps(resumeData.atcoder || "")} target="_blank" rel="noreferrer" className="hover:text-[#3C7BD6] transition-colors" aria-label="Atcoder">
+                <SiAtcoder className="text-xl" />
               </a>
               <a href={`mailto:${resumeData.email}`} className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
                 <MdEmail className="text-[1.35rem]" />
