@@ -1,5 +1,5 @@
 "use client";
-import { SiLeetcode, SiCodeforces, SiHackerrank, SiAtcoder } from "react-icons/si";
+import { SiLeetcode, SiCodeforces, SiHackerrank } from "react-icons/si";
 import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import type { ResumeData } from "@/lib/resumeData";
@@ -36,9 +36,6 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
             </a>
             <a href={toHref(data.hackerrank)} target="_blank" rel="noreferrer" className="hover:text-[#2EC866] transition-colors" aria-label="Hackerrank">
               <SiHackerrank className="text-xl" />
-            </a>
-            <a href={toHref(data.atcoder)} target="_blank" rel="noreferrer" className="hover:text-[#3C7BD6] transition-colors" aria-label="Atcoder">
-              <SiAtcoder className="text-xl" />
             </a>
             <a href={`mailto:${data.email}`} className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
               <MdEmail className="text-[1.35rem]" />
