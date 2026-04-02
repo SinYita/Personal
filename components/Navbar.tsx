@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -33,7 +34,7 @@ export default function Navbar() {
             className="h-20 w-20 overflow-hidden rounded-full border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110"
           >
             <Image
-              src="/assets/profile.jpg"
+              src={`${basePath}/assets/profile.jpg`}
               alt="SinYita avatar"
               width={80}
               height={80}
