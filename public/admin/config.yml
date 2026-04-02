@@ -9,7 +9,7 @@ site_url: https://sinyita.github.io/Personal
 display_url: https://sinyita.github.io/Personal
 
 # Enable this for local editing with `npx decap-server`.
-local_backend: true
+local_backend: false
 
 media_folder: public/uploads
 public_folder: /uploads
