@@ -19,7 +19,7 @@ function getBerlinTheme(): "light" | "dark" {
 }
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [manualMode, setManualMode] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function ThemeToggle() {
     return () => window.clearInterval(timer);
   }, [manualMode, setTheme]);
 
-  const isDark = useMemo(() => theme === "dark", [theme]);
+  const isDark = useMemo(() => resolvedTheme === "dark", [resolvedTheme]);
 
   return (
     <button
