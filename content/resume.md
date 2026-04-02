@@ -7,6 +7,9 @@ leetcode: ""
 codeforces: ""
 universityLink: ""
 avatar: /assets/profile.jpg
+homeHeading: Hi, Welcome to My Website!
+homeSubtitle: Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.
+homeSummary: I am currently bachelor student at TUM and a member of 42 Heilbronn. I focus on low level system programming and optimization. I am also interested in AI/ML and have done some projects in that area. This site is where I share my work, ideas, and technical notes.
 title: Machine Learning, C++, HPC,Python
 location: Germany
 summary: Solid full-stack developer with a strong interest in Machine Learning and Data Science. Skilled at building modern web apps with React/Next.js and capable of Python backend development and ML model research.

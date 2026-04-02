@@ -28,11 +28,11 @@ export default function HomeClient({
       <section id="about" className="scroll-mt-32">
         <div className="space-y-6 max-w-3xl pb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m {resumeData.name}</h1>
-            <p>{resumeData.title}</p>
+            <h1 className="text-3xl font-semibold tracking-tight">{resumeData.homeHeading}</h1>
+            <p>{resumeData.homeSubtitle}</p>
           </div>
           <div className="space-y-4 text-[var(--muted)] leading-relaxed">
-            <p>{resumeData.summary}</p>
+            <p>{resumeData.homeSummary}</p>
             <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
               <a href={toHttps(resumeData.github)} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
                 <FaGithub className="text-xl" />

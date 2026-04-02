@@ -11,6 +11,9 @@ export interface ResumeData {
   codeforces?: string;
   universityLink?: string;
   avatar?: string;
+  homeHeading: string;
+  homeSubtitle: string;
+  homeSummary: string;
   title: string;
   location: string;
   summary: string;

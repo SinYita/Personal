@@ -48,7 +48,6 @@ export default function SearchBar() {
   const [results, setResults] = useState<Array<{
     url: string;
     pageTitle: string;
-    sectionTitle?: string;
     snippet: string;
   }>>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -132,7 +131,6 @@ export default function SearchBar() {
         const normalized = resolved.map((item) => {
           const primarySubResult = item.sub_results?.[0];
           const pageTitle = item.meta.title || item.meta.url || "Untitled result";
-          const sectionTitle = primarySubResult?.title?.trim();
           const preferredUrl = primarySubResult?.url || item.meta.url || item.url;
           const sourceExcerpt = primarySubResult?.excerpt || item.excerpt || "";
           const plainExcerpt = stripHtml(sourceExcerpt);
@@ -140,7 +138,6 @@ export default function SearchBar() {
           return {
             url: resolveResultUrl(preferredUrl),
             pageTitle,
-            sectionTitle,
             snippet: createSnippet(plainExcerpt, term),
           };
         });
@@ -216,7 +213,7 @@ export default function SearchBar() {
       </label>
 
       {isOpen && query.trim() && isAvailable && (
-        <div className="search-panel absolute right-0 top-full z-50 mt-3 w-[min(42rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--background)] shadow-[0_30px_80px_rgba(0,0,0,0.18)] backdrop-blur-md">
+        <div className="search-panel absolute left-0 top-full z-50 mt-3 w-[min(42rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--background)] shadow-[0_30px_80px_rgba(0,0,0,0.18)] backdrop-blur-md">
           <div className="border-b border-[var(--border)] px-4 py-3 text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
             {isLoading ? "Searching..." : isReady ? "Search Results" : "Search unavailable"}
           </div>
@@ -243,11 +240,6 @@ export default function SearchBar() {
                     >
                       {result.pageTitle}
                     </a>
-                    {result.sectionTitle && result.sectionTitle !== result.pageTitle && (
-                      <p className="text-xs uppercase tracking-wider text-[var(--muted)]">
-                        {result.sectionTitle}
-                      </p>
-                    )}
                     {result.snippet && (
                       <p className="text-sm text-[var(--muted)] leading-relaxed">{result.snippet}</p>
                     )}
