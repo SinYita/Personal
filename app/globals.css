@@ -24,7 +24,20 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -104,9 +117,8 @@ body {
   text-align: center;
 }
 
-.hljs {
-  background: transparent !important;
-  color: var(--foreground) !important;
+.prose pre [data-line] {
+  display: block;
 }
 
 .search-shell {

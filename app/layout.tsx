@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import SearchBar from "@/components/SearchBar";
 import ThemeToggle from "@/components/ThemeToggle";
 import UtcClock from "@/components/UtcClock";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "SinYita",
@@ -18,9 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen antialiased selection:bg-[var(--accent)] selection:text-[var(--background)] bg-[var(--background)] text-[var(--foreground)]">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SmoothScroll />
           <Navbar />
           <div className="min-h-screen flex flex-col lg:pl-64">
             <div className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--background)]/85 backdrop-blur-md">

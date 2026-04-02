@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,13 +41,19 @@ export default function Navbar() {
         <nav className="flex-1 w-full flex flex-col items-center">
           <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--muted)] w-full lg:w-auto">
             {navLinks.map((link) => (
-              <li key={link.href} className="lg:w-full">
+              <li key={link.href} className="relative lg:w-full">
+                {isActive(link.href) ? (
+                  <motion.span
+                    layoutId="nav-active-slider"
+                    transition={{ type: "spring", stiffness: 460, damping: 36, mass: 0.7 }}
+                    className="absolute inset-0 rounded-sm bg-[var(--accent)]/10"
+                    aria-hidden="true"
+                  />
+                ) : null}
                 <Link
                   href={link.href}
-                  className={`block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
-                    isActive(link.href)
-                      ? "text-[var(--foreground)] border-b-2 border-[var(--accent)]"
-                      : "text-[var(--muted)]"
+                  className={`relative z-10 block w-full lg:px-1 py-2 transition-colors rounded-sm hover:text-[var(--foreground)] text-center ${
+                    isActive(link.href) ? "text-[var(--foreground)]" : "text-[var(--muted)]"
                   }`}
                 >
                   {link.label}

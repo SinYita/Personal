@@ -1,9 +1,8 @@
-import ReactMarkdown from "react-markdown";
+import { MarkdownAsync } from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github.css";
+import rehypePrettyCode from "rehype-pretty-code";
 import type { ReactNode } from "react";
 import { isValidElement } from "react";
 import type { Components } from "react-markdown";
@@ -48,16 +47,24 @@ const components: Components = {
   },
 };
 
-export default function MarkdownContent({ content }: MarkdownContentProps) {
+const prettyCodeOptions = {
+  theme: {
+    light: "github-light",
+    dark: "github-dark",
+  },
+  keepBackground: false,
+};
+
+export default async function MarkdownContent({ content }: MarkdownContentProps) {
   return (
     <div className="prose">
-      <ReactMarkdown
+      <MarkdownAsync
         remarkPlugins={[remarkMath, remarkGfm]}
-        rehypePlugins={[rehypeKatex, rehypeHighlight]}
+        rehypePlugins={[rehypeKatex, [rehypePrettyCode, prettyCodeOptions]]}
         components={components}
       >
         {content}
-      </ReactMarkdown>
+      </MarkdownAsync>
     </div>
   );
 }
