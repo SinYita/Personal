@@ -121,6 +121,27 @@ body {
   display: block;
 }
 
+/* Shiki (rehype-pretty-code) dual-theme token colors */
+.prose code[data-theme*=" "] {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.prose code[data-theme*=" "] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+html.dark .prose code[data-theme*=" "] {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+html.dark .prose code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
 .search-shell {
   position: relative;
 }
