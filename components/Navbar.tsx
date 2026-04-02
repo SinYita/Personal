@@ -13,11 +13,12 @@ export default function Navbar() {
     { href: "/", label: "Home" },
     { href: "/projects", label: "Projects" },
     { href: "/blog", label: "BLOGS" },
+    { href: "/gallery", label: "Gallery" },
     { href: "/about", label: "About" },
   ];
 
   const isActive = (href: string) => {
-    if (href === "/blog") return pathname.startsWith("/blog");
+    if (href === "/blog" || href === "/gallery") return pathname.startsWith(href);
     return pathname === href;
   };
 
