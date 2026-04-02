@@ -35,9 +35,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## Decap CMS
+## Sveltia CMS
 
-This site now includes Decap CMS at `/admin`.
+This site now includes Sveltia CMS at `/admin`.
 
 - Local dev URL: `http://localhost:3000/admin`
 - Production URL: `https://sinyita.github.io/Personal/admin`
@@ -50,7 +50,7 @@ This site now includes Decap CMS at `/admin`.
 npm run dev
 ```
 
-2. In another terminal, run Decap local backend:
+2. In another terminal, run the local backend:
 
 ```bash
 npx decap-server
@@ -62,7 +62,14 @@ npx decap-server
 - `projects` -> `content/projects/*.md`
 - `resume` -> `content/resume.md`
 
-### Notes for production auth
+### Notes for production auth (PKCE)
 
-The current backend is configured for GitHub (`SinYita/Personal`).
-For production write access on GitHub Pages, you still need to configure an OAuth flow supported by Decap CMS.
+The CMS backend is configured for GitHub (`SinYita/Personal`) using PKCE auth.
+
+To enable production login:
+
+1. Create a GitHub OAuth App for this site.
+2. Set the callback URL to `https://sinyita.github.io/Personal/admin/`.
+3. Replace `REPLACE_WITH_YOUR_GITHUB_OAUTH_APP_ID` in `public/admin/config.yml` with your OAuth App Client ID.
+
+The local editing flow still works with `npx decap-server`.
