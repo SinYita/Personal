@@ -62,7 +62,7 @@ collections:
           - { name: linkedin, label: LinkedIn, widget: string, required: false }
           - { name: leetcode, label: LeetCode, widget: string, required: false }
           - { name: codeforces, label: Codeforces, widget: string, required: false }
-          - { name: universityLink, label: University Link, widget: string, required: false }
+          - { name: hackerrank, label: Hackerrank, widget: string, required: false }
           - { name: avatar, label: Avatar Path, widget: string, required: false, hint: "Example: /assets/profile.jpg" }
           - { name: homeHeading, label: Home Heading, widget: string }
           - { name: homeSubtitle, label: Home Subtitle, widget: string }
