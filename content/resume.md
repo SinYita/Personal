@@ -5,7 +5,7 @@ github: github.com/SinYita
 linkedin: ''
 leetcode: ''
 codeforces: ''
-universityLink: ''
+hackerrank: ''
 avatar: /assets/profile.jpg
 homeHeading: Hi, Welcome to My Website!
 homeSubtitle: CS Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.

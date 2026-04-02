@@ -9,7 +9,7 @@ export interface ResumeData {
   linkedin?: string;
   leetcode?: string;
   codeforces?: string;
-  universityLink?: string;
+  hackerrank?: string;
   avatar?: string;
   homeHeading: string;
   homeSubtitle: string;

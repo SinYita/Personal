@@ -3,8 +3,8 @@ import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
 import type { ResumeData } from "@/lib/resumeData";
-import { SiLeetcode, SiCodeforces } from "react-icons/si";
-import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
+import { SiLeetcode, SiCodeforces, SiHackerrank } from "react-icons/si";
+import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
 function toHttps(url: string) {
@@ -46,8 +46,8 @@ export default function HomeClient({
               <a href={toHttps(resumeData.codeforces || "")} target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
                 <SiCodeforces className="text-xl" />
               </a>
-              <a href={toHttps(resumeData.universityLink || "")} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
-                <FaGraduationCap className="text-2xl" />
+              <a href={toHttps(resumeData.hackerrank || "")} target="_blank" rel="noreferrer" className="hover:text-[#2EC866] transition-colors" aria-label="Hackerrank">
+                <SiHackerrank className="text-xl" />
               </a>
               <a href={`mailto:${resumeData.email}`} className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
                 <MdEmail className="text-[1.35rem]" />
