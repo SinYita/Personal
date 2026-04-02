@@ -2,6 +2,11 @@ backend:
   name: github
   repo: SinYita/Personal
   branch: main
+  auth_type: pkce
+  app_id: Ov23liy2soQwGhGqOhKN
+
+site_url: https://sinyita.github.io/Personal
+display_url: https://sinyita.github.io/Personal
 
 # Enable this for local editing with `npx decap-server`.
 local_backend: true
