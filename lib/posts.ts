@@ -41,7 +41,7 @@ export function getPostMeta(slug: string): PostMeta | null {
   return {
     slug,
     title: data.title ?? slug,
-    date: data.date ? String(data.date) : "",
+    date: normalizeDate(data.date),
     tags: data.tags ?? [],
     excerpt: data.excerpt ?? "",
     coverImage: data.coverImage,
@@ -56,10 +56,28 @@ export function getPost(slug: string): Post | null {
   return {
     slug,
     title: data.title ?? slug,
-    date: data.date ? String(data.date) : "",
+    date: normalizeDate(data.date),
     tags: data.tags ?? [],
     excerpt: data.excerpt ?? "",
     coverImage: data.coverImage,
     content,
   };
+}
+
+function normalizeDate(input: unknown): string {
+  if (!input) return "";
+
+  if (input instanceof Date && !Number.isNaN(input.getTime())) {
+    return input.toISOString().slice(0, 10);
+  }
+
+  const raw = String(input).trim();
+  if (!raw) return "";
+
+  const parsed = new Date(raw);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString().slice(0, 10);
+  }
+
+  return raw;
 }

@@ -2,42 +2,54 @@
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
+import type { ResumeData } from "@/lib/resumeData";
 import { SiLeetcode, SiCodeforces } from "react-icons/si";
 import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
-export default function HomeClient({ recentPosts, projects }: { recentPosts: PostMeta[], projects: ProjectMeta[] }) {
+function toHttps(url: string) {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")) return url;
+  return `https://${url}`;
+}
+
+export default function HomeClient({
+  recentPosts,
+  projects,
+  resumeData,
+}: {
+  recentPosts: PostMeta[];
+  projects: ProjectMeta[];
+  resumeData: ResumeData;
+}) {
   return (
     <div className="flex flex-col space-y-24 py-16 pb-32">
       {/* Hero Section */}
       <section id="about" className="scroll-mt-32">
         <div className="space-y-6 max-w-3xl pb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight">Hi, Welcome to My Website!</h1>
-            <p>Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.</p>
+            <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m {resumeData.name}</h1>
+            <p>{resumeData.title}</p>
           </div>
           <div className="space-y-4 text-[var(--muted)] leading-relaxed">
-    
-            <p>
-             I am currently bachelor student at TUM and a member of 42 Heilbronn. I focus on low level system programming and optimization. I am also interested in AI/ML and have done some projects in that area. This site is where I share my work, ideas, and technical notes.
-            </p>
+            <p>{resumeData.summary}</p>
             <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
-              <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
+              <a href={toHttps(resumeData.github)} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
                 <FaGithub className="text-xl" />
               </a>
-              <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
+              <a href={toHttps(resumeData.linkedin || "")} target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
                 <FaLinkedin className="text-xl" />
               </a>
-              <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
+              <a href={toHttps(resumeData.leetcode || "")} target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
                 <SiLeetcode className="text-xl" />
               </a>
-              <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
+              <a href={toHttps(resumeData.codeforces || "")} target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
                 <SiCodeforces className="text-xl" />
               </a>
-              <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
+              <a href={toHttps(resumeData.universityLink || "")} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
                 <FaGraduationCap className="text-2xl" />
               </a>
-              <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
+              <a href={`mailto:${resumeData.email}`} className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
                 <MdEmail className="text-[1.35rem]" />
               </a>
             </div>
@@ -73,7 +85,7 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
               <div className="space-y-2">
                 <div className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Tags</div>
                 <div className="flex flex-wrap gap-2">
-                  {Array.from(new Set([...project.tags, ...project.techStack])).map((tag) => (
+                  {Array.from(new Set(project.tags.map((tag) => tag.replace(/^#+/, "").trim()).filter(Boolean))).map((tag) => (
                     <span key={tag} className="rounded-full border border-[var(--border)] px-2.5 py-1 text-xs text-[var(--muted)]">
                       {tag}
                     </span>

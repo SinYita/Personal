@@ -6,6 +6,11 @@ export interface ResumeData {
   name: string;
   email: string;
   github: string;
+  linkedin?: string;
+  leetcode?: string;
+  codeforces?: string;
+  universityLink?: string;
+  avatar?: string;
   title: string;
   location: string;
   summary: string;

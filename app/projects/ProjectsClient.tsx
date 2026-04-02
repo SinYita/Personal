@@ -7,13 +7,14 @@ import TagChip from "@/components/TagChip";
 
 export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }) {
   const searchParams = useSearchParams();
-  const selectedTag = searchParams.get("tag");
+  const selectedTag = normalizeTag(searchParams.get("tag") ?? "");
   const ALL_TAG = "All";
   const [selectedTags, setSelectedTags] = useState<Set<string>>(
     selectedTag ? new Set([selectedTag]) : new Set([ALL_TAG])
   );
 
-  const skillTags = Array.from(new Set(projects.flatMap((project) => project.techStack))).sort();
+  const projectTagMap = new Map(projects.map((project) => [project.id, getProjectTags(project)]));
+  const tagOptions = Array.from(new Set(Array.from(projectTagMap.values()).flat())).sort();
 
   const handleTagClick = (tag: string) => {
     if (tag === ALL_TAG) {
@@ -38,7 +39,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
     selectedTags.has(ALL_TAG)
       ? projects
       : projects.filter((project) =>
-          Array.from(selectedTags).every((tag) => project.techStack.includes(tag))
+          Array.from(selectedTags).every((tag) => projectTagMap.get(project.id)?.includes(tag))
         );
 
   return (
@@ -78,7 +79,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {Array.from(new Set([...project.tags, ...project.techStack])).map((tag) => (
+                    {getProjectTags(project).map((tag) => (
                       <TagChip
                         key={tag}
                         label={tag}
@@ -124,7 +125,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
               selected={selectedTags.has(ALL_TAG)}
               onClick={() => handleTagClick(ALL_TAG)}
             />
-            {skillTags.map((tag) => (
+            {tagOptions.map((tag) => (
               <TagChip
                 key={tag}
                 label={tag}
@@ -137,4 +138,12 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
       </aside>
     </div>
   );
+}
+
+function normalizeTag(tag: string) {
+  return tag.replace(/^#+/, "").trim();
+}
+
+function getProjectTags(project: ProjectMeta) {
+  return Array.from(new Set(project.tags.map(normalizeTag).filter(Boolean)));
 }

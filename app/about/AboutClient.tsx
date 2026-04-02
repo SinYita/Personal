@@ -4,6 +4,12 @@ import { FaGraduationCap, FaLinkedin, FaGithub } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import type { ResumeData } from "@/lib/resumeData";
 
+function toHref(value?: string) {
+  if (!value) return "#";
+  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("mailto:")) return value;
+  return `https://${value}`;
+}
+
 export default function AboutClient({ resumeData }: { resumeData: ResumeData }) {
   const data = resumeData;
 
@@ -11,32 +17,27 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
     <div className="flex flex-col space-y-12 pb-20">
       {/* Header */}
       <section className="space-y-4 pb-4">
-        <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m Weiyuan</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m {data.name}</h1>
         <div className="space-y-4 text-[var(--muted)] leading-relaxed max-w-3xl text-base">
-          <p>Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.</p>
-          <p>
-            I study Informatics at TUM and sharpen my coding skills at 42 Heilbronn.
-            I’m a Systems Programming enthusiast who loves digging into the "how" and "why" of software. My work ranges from optimizing parallel C++ solvers to porting complex robotics stacks across architectures. I also keep a close eye on AI/ML, exploring how to build smarter, more efficient models.
-
-On this site, I document my technical journey—sharing everything from deep-level system notes to ideas on future tech.
-          </p>
+          <p>{data.title}</p>
+          <p>{data.summary}</p>
           <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
-            <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
+            <a href={toHref(data.github)} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">
               <FaGithub className="text-xl" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
+            <a href={toHref(data.linkedin)} target="_blank" rel="noreferrer" className="hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
               <FaLinkedin className="text-xl" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
+            <a href={toHref(data.leetcode)} target="_blank" rel="noreferrer" className="hover:text-[#FFA116] transition-colors" aria-label="LeetCode">
               <SiLeetcode className="text-xl" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
+            <a href={toHref(data.codeforces)} target="_blank" rel="noreferrer" className="hover:text-[#1F8ACB] transition-colors" aria-label="Codeforces">
               <SiCodeforces className="text-xl" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
+            <a href={toHref(data.universityLink)} target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="University">
               <FaGraduationCap className="text-2xl" />
             </a>
-            <a href="mailto:contact@example.com" className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
+            <a href={`mailto:${data.email}`} className="hover:text-[var(--foreground)] transition-colors" aria-label="Email">
               <MdEmail className="text-[1.35rem]" />
             </a>
           </div>

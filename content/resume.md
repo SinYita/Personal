@@ -2,6 +2,11 @@
 name: Weiyuan Du
 email: weiyuan.du@tum.de
 github: github.com/SinYita
+linkedin: ""
+leetcode: ""
+codeforces: ""
+universityLink: ""
+avatar: /assets/profile.jpg
 title: Machine Learning, C++, HPC,Python
 location: Germany
 summary: Solid full-stack developer with a strong interest in Machine Learning and Data Science. Skilled at building modern web apps with React/Next.js and capable of Python backend development and ML model research.

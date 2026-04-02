@@ -5,10 +5,18 @@ import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
+import type { ResumeData } from "@/lib/resumeData";
 
-export default function Navbar() {
+function toHref(value?: string) {
+  if (!value) return "#";
+  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("mailto:")) return value;
+  return `https://${value}`;
+}
+
+export default function Navbar({ profile }: { profile: ResumeData }) {
   const pathname = usePathname();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const avatarPath = profile.avatar && profile.avatar.startsWith("/") ? profile.avatar : "/assets/profile.jpg";
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -34,8 +42,8 @@ export default function Navbar() {
             className="h-20 w-20 overflow-hidden rounded-full border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110"
           >
             <Image
-              src={`${basePath}/assets/profile.jpg`}
-              alt="SinYita avatar"
+              src={`${basePath}${avatarPath}`}
+              alt={`${profile.name} avatar`}
               width={80}
               height={80}
               className="h-full w-full object-cover"
@@ -43,8 +51,8 @@ export default function Navbar() {
             />
           </Link>
           <div>
-            <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">Weiyuan Du</h1>
-            <p className="text-sm text-[var(--muted)] mt-1">BSc in CS@TUM</p>
+            <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">{profile.name}</h1>
+            <p className="text-sm text-[var(--muted)] mt-1">{profile.title}</p>
           </div>
         </div>
 
@@ -74,13 +82,13 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center justify-center gap-4 pt-6 lg:pt-8 text-[var(--muted)] w-full">
-          <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-[var(--foreground)] transition-colors">
+          <a href={toHref(profile.github)} target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:text-[var(--foreground)] transition-colors">
             <FaGithub className="text-lg" />
           </a>
-          <a href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
+          <a href={toHref(profile.linkedin)} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:text-[var(--foreground)] transition-colors">
             <FaLinkedin className="text-lg" />
           </a>
-          <a href="mailto:contact@example.com" aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
+          <a href={`mailto:${profile.email}`} aria-label="Email" className="hover:text-[var(--foreground)] transition-colors">
             <MdEmail className="text-[1.1rem]" />
           </a>
         </div>
