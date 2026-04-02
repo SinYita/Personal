@@ -7,13 +7,20 @@ import TagChip from "@/components/TagChip";
 
 export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   const searchParams = useSearchParams();
-  const selectedTag = searchParams.get("tag");
+  const selectedTag = normalizeTag(searchParams.get("tag") ?? "");
   const ALL_TAG = "All";
   const [selectedTags, setSelectedTags] = useState<Set<string>>(
     selectedTag ? new Set([selectedTag]) : new Set([ALL_TAG])
   );
 
-  const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
+  const postTagMap = new Map(posts.map((post) => [post.slug, getPostTags(post)]));
+  const allTags = Array.from(new Set(Array.from(postTagMap.values()).flat())).sort();
+  const tagCounts = new Map<string, number>(
+    allTags.map((tag) => [
+      tag,
+      posts.reduce((count, post) => count + (postTagMap.get(post.slug)?.includes(tag) ? 1 : 0), 0),
+    ])
+  );
 
   const handleTagClick = (tag: string) => {
     if (tag === ALL_TAG) {
@@ -38,7 +45,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
     selectedTags.has(ALL_TAG)
       ? posts
       : posts.filter((post) =>
-          Array.from(selectedTags).some((tag) => post.tags.includes(tag))
+          Array.from(selectedTags).some((tag) => postTagMap.get(post.slug)?.includes(tag))
         );
 
   return (
@@ -76,11 +83,10 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                   )}
                   {post.tags && post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-1">
-                      {post.tags.map((tag) => (
+                      {getPostTags(post).map((tag) => (
                         <TagChip
                           key={tag}
                           label={tag}
-                          withHash
                           selected={selectedTags.has(tag)}
                           onClick={() => handleTagClick(tag)}
                         />
@@ -102,6 +108,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
               <TagChip
                 key={ALL_TAG}
                 label={ALL_TAG}
+                count={posts.length}
                 selected={selectedTags.has(ALL_TAG)}
                 onClick={() => handleTagClick(ALL_TAG)}
               />
@@ -109,7 +116,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                 <TagChip
                   key={tag}
                   label={tag}
-                  withHash
+                  count={tagCounts.get(tag) ?? 0}
                   selected={selectedTags.has(tag)}
                   onClick={() => handleTagClick(tag)}
                 />
@@ -120,4 +127,12 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
       )}
     </div>
   );
+}
+
+function normalizeTag(tag: string) {
+  return tag.replace(/^#+/, "").trim();
+}
+
+function getPostTags(post: PostMeta) {
+  return Array.from(new Set((post.tags ?? []).map(normalizeTag).filter(Boolean)));
 }

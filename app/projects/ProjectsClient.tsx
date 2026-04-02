@@ -15,6 +15,12 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
 
   const projectTagMap = new Map(projects.map((project) => [project.id, getProjectTags(project)]));
   const tagOptions = Array.from(new Set(Array.from(projectTagMap.values()).flat())).sort();
+  const tagCounts = new Map<string, number>(
+    tagOptions.map((tag) => [
+      tag,
+      projects.reduce((count, project) => count + (projectTagMap.get(project.id)?.includes(tag) ? 1 : 0), 0),
+    ])
+  );
 
   const handleTagClick = (tag: string) => {
     if (tag === ALL_TAG) {
@@ -122,6 +128,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
             <TagChip
               key={ALL_TAG}
               label={ALL_TAG}
+              count={projects.length}
               selected={selectedTags.has(ALL_TAG)}
               onClick={() => handleTagClick(ALL_TAG)}
             />
@@ -129,6 +136,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
               <TagChip
                 key={tag}
                 label={tag}
+                count={tagCounts.get(tag) ?? 0}
                 onClick={() => handleTagClick(tag)}
                 selected={selectedTags.has(tag)}
               />

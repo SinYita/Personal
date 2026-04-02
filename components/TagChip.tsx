@@ -3,6 +3,7 @@ type TagChipProps = {
   selected?: boolean;
   onClick?: () => void;
   withHash?: boolean;
+  count?: number;
   className?: string;
 };
 
@@ -14,9 +15,11 @@ export default function TagChip({
   selected = false,
   onClick,
   withHash = false,
+  count,
   className = "",
 }: TagChipProps) {
   const text = withHash ? `#${label}` : label;
+  const displayText = typeof count === "number" ? `${text} (${count})` : text;
 
   if (onClick) {
     const stateClassName = selected
@@ -29,14 +32,14 @@ export default function TagChip({
         onClick={onClick}
         className={`${baseClassName} cursor-pointer ${stateClassName} ${className}`.trim()}
       >
-        {text}
+        {displayText}
       </button>
     );
   }
 
   return (
     <span className={`${baseClassName} border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] ${className}`.trim()}>
-      {text}
+      {displayText}
     </span>
   );
 }
