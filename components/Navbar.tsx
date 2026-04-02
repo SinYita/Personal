@@ -52,7 +52,7 @@ export default function Navbar({ profile }: { profile: ResumeData }) {
           </Link>
           <div>
             <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">{profile.name}</h1>
-            <p className="text-sm text-[var(--muted)] mt-1">{profile.title}</p>
+            <p className="text-sm text-[var(--muted)] mt-1">BSc CS@TUM| AI Infra | HPC </p>
           </div>
         </div>
 
