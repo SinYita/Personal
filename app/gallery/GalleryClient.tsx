@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { createPortal } from "react-dom";
 
 type GalleryItem = {
   src: string;
@@ -58,6 +59,7 @@ const galleryItems: GalleryItem[] = [
 
 export default function GalleryClient() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
   const activeItem = activeIndex === null ? null : galleryItems[activeIndex];
 
   const close = () => setActiveIndex(null);
@@ -66,6 +68,10 @@ export default function GalleryClient() {
     const normalized = (nextIndex + galleryItems.length) % galleryItems.length;
     setActiveIndex(normalized);
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -79,6 +85,19 @@ export default function GalleryClient() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeIndex]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const previousOverflow = document.body.style.overflow;
+
+    if (activeIndex !== null) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [activeIndex, mounted]);
 
   return (
     <div className="space-y-8 pb-20">
@@ -117,104 +136,73 @@ export default function GalleryClient() {
         </div>
       </section>
 
-      <AnimatePresence>
-        {activeItem && activeIndex !== null && (
-          <motion.div
-            className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={close}
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8">
-              <motion.div
-                className="relative w-full max-w-6xl overflow-hidden rounded-3xl bg-[var(--background)] border border-[var(--border)] shadow-2xl"
-                initial={{ scale: 0.96, y: 18, opacity: 0 }}
-                animate={{ scale: 1, y: 0, opacity: 1 }}
-                exit={{ scale: 0.96, y: 18, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 240, damping: 28 }}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <div className="grid lg:grid-cols-[minmax(0,1.7fr)_minmax(320px,0.8fr)]">
-                  <div className="relative bg-black flex items-center justify-center min-h-[55vh] lg:min-h-[78vh]">
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.img
-                        key={activeItem.src}
-                        src={activeItem.src}
-                        alt={activeItem.alt}
-                        className="max-h-[78vh] w-full object-contain"
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
-                        transition={{ duration: 0.28, ease: "easeOut" }}
-                      />
-                    </AnimatePresence>
+      {mounted
+        ? createPortal(
+            <AnimatePresence>
+              {activeItem && activeIndex !== null && (
+                <motion.div
+                  className="fixed inset-0 z-[9999] bg-black/92"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={close}
+                >
+                  <div className="absolute inset-0" onClick={(event) => event.stopPropagation()}>
+                    <div className="relative h-full w-full">
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.img
+                          key={activeItem.src}
+                          src={activeItem.src}
+                          alt={activeItem.alt}
+                          className="h-full w-full object-contain"
+                          initial={{ opacity: 0, scale: 0.98 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.98 }}
+                          transition={{ duration: 0.24, ease: "easeOut" }}
+                        />
+                      </AnimatePresence>
 
-                    <button
-                      type="button"
-                      onClick={() => goTo(activeIndex - 1)}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 px-4 py-3 text-white transition-colors hover:bg-black/60"
-                      aria-label="Previous image"
-                    >
-                      ←
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => goTo(activeIndex + 1)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 px-4 py-3 text-white transition-colors hover:bg-black/60"
-                      aria-label="Next image"
-                    >
-                      →
-                    </button>
-                  </div>
-
-                  <div className="flex flex-col gap-6 p-6 md:p-8">
-                    <div>
-                      <p className="text-xs font-semibold tracking-[0.28em] uppercase text-[var(--muted)]">Preview</p>
-                      <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--foreground)]">{activeItem.title}</h2>
-                      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{activeItem.caption}</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <p className="text-xs font-semibold tracking-[0.28em] uppercase text-[var(--muted)]">Album</p>
-                      <div className="grid grid-cols-4 gap-2">
-                        {galleryItems.map((item, index) => (
-                          <button
-                            key={item.src}
-                            type="button"
-                            onClick={() => setActiveIndex(index)}
-                            className={`overflow-hidden rounded-xl border transition-all ${
-                              index === activeIndex
-                                ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/30"
-                                : "border-[var(--border)] opacity-70 hover:opacity-100"
-                            }`}
-                            aria-label={`Switch to ${item.title}`}
-                          >
-                            <img src={item.src} alt={item.alt} className="h-16 w-full object-cover" />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="mt-auto flex items-center justify-between gap-3">
-                      <div className="text-sm text-[var(--muted)]">
-                        {activeIndex + 1} / {galleryItems.length}
-                      </div>
                       <button
                         type="button"
                         onClick={close}
-                        className="rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--foreground)] transition-colors hover:border-[var(--accent)]"
+                        className="absolute right-5 top-5 rounded-full border border-white/30 bg-black/40 px-3 py-1.5 text-xs font-medium tracking-wider text-white transition-colors hover:bg-black/60"
+                        aria-label="Close preview"
                       >
-                        Close
+                        CLOSE
                       </button>
+
+                      <div className="absolute bottom-5 right-5 flex items-center gap-4 text-white/90">
+                        <button
+                          type="button"
+                          onClick={() => goTo(activeIndex - 1)}
+                          className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-white"
+                          aria-label="Previous image"
+                        >
+                          Prev
+                        </button>
+                        <span className="text-white/50">/</span>
+                        <button
+                          type="button"
+                          onClick={() => goTo(activeIndex + 1)}
+                          className="text-xs font-medium tracking-wider uppercase transition-colors hover:text-white"
+                          aria-label="Next image"
+                        >
+                          Next
+                        </button>
+                      </div>
+
+                      <div className="absolute bottom-5 left-5 max-w-[70vw] text-white/80">
+                        <p className="text-xs font-semibold tracking-[0.24em] uppercase">{activeItem.title}</p>
+                        <p className="mt-1 text-xs text-white/65">{activeIndex + 1} / {galleryItems.length}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                </motion.div>
+              )}
+            </AnimatePresence>,
+            document.body
+          )
+        : null}
     </div>
   );
 }
