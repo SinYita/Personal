@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/generate-search-index.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/generate-search-index.mjs",
     "build": "next build && npx pagefind --site out",
+    "preexport": "node scripts/generate-search-index.mjs",
     "export": "next build && npx pagefind --site out",
     "start": "next start",
     "lint": "eslint"

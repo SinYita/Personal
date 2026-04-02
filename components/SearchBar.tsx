@@ -21,6 +21,12 @@ type PagefindModule = {
   preload?: (term: string) => Promise<void>;
 };
 
+type SearchIndexEntry = {
+  url: string;
+  title: string;
+  kind: "blog" | "project";
+};
+
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const loadPagefind = new Function("path", "return import(path)") as (
   path: string,
@@ -43,6 +49,7 @@ export default function SearchBar() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const pagefindRef = useRef<PagefindModule | null>(null);
+  const searchIndexRef = useRef<Map<string, SearchIndexEntry> | null>(null);
   const debounceRef = useRef<number | null>(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Array<{
@@ -71,6 +78,17 @@ export default function SearchBar() {
 
         const pagefind = await loadPagefind(modulePath);
         await pagefind.options({ excerptLength: 80 });
+
+        const indexResponse = await fetch(`${basePath}/search-index.json`, { cache: "no-store" });
+        if (indexResponse.ok) {
+          const entries = (await indexResponse.json()) as SearchIndexEntry[];
+          searchIndexRef.current = new Map(
+            entries.map((entry) => [normalizeSearchUrl(entry.url), entry])
+          );
+        } else {
+          searchIndexRef.current = new Map();
+        }
+
         if (!mounted) return;
         pagefindRef.current = pagefind;
         setIsReady(true);
@@ -130,17 +148,20 @@ export default function SearchBar() {
 
         const normalized = resolved.map((item) => {
           const primarySubResult = item.sub_results?.[0];
-          const pageTitle = item.meta.title || item.meta.url || "Untitled result";
           const preferredUrl = primarySubResult?.url || item.meta.url || item.url;
           const sourceExcerpt = primarySubResult?.excerpt || item.excerpt || "";
           const plainExcerpt = stripHtml(sourceExcerpt);
+          const normalizedUrl = normalizeSearchUrl(preferredUrl);
+          const title = searchIndexRef.current?.get(normalizedUrl)?.title;
+
+          if (!title) return null;
 
           return {
             url: resolveResultUrl(preferredUrl),
-            pageTitle,
+            pageTitle: title,
             snippet: createSnippet(plainExcerpt, term),
           };
-        });
+        }).filter((item): item is { url: string; pageTitle: string; snippet: string } => item !== null);
 
         setResults(normalized);
       } catch (error) {
@@ -289,4 +310,29 @@ function createSnippet(text: string, term: string, maxLength = 180) {
   const prefix = start > 0 ? "..." : "";
   const suffix = end < normalizedText.length ? "..." : "";
   return `${prefix}${normalizedText.slice(start, end).trim()}${suffix}`;
+}
+
+function normalizeSearchUrl(url?: string) {
+  if (!url) return "";
+
+  let value = url;
+  if (basePath && value.startsWith(basePath)) {
+    value = value.slice(basePath.length);
+  }
+
+  value = value.split("#")[0].split("?")[0];
+  if (value.endsWith("index.html")) {
+    value = value.slice(0, -"index.html".length);
+  }
+  if (value.endsWith(".html")) {
+    value = value.slice(0, -".html".length);
+  }
+  if (!value.startsWith("/")) {
+    value = `/${value}`;
+  }
+  if (value.length > 1 && value.endsWith("/")) {
+    value = value.slice(0, -1);
+  }
+
+  return value;
 }
