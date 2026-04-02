@@ -44,7 +44,7 @@ export default function Navbar() {
           </Link>
           <div>
             <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">Weiyuan Du</h1>
-            <p className="text-sm text-[var(--muted)] mt-1">Full-stack Developer</p>
+            <p className="text-sm text-[var(--muted)] mt-1">BSc in CS@TUM</p>
           </div>
         </div>
 

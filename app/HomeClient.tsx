@@ -13,11 +13,11 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
       <section id="about" className="scroll-mt-32">
         <div className="space-y-6 max-w-3xl pb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight">Hi, Welcome to My Portfolio, I&apos;m Weiyuan Du</h1>
-            <p className="text-base text-[var(--muted)] mt-1">Full-stack Developer</p>
+            <h1 className="text-3xl font-semibold tracking-tight">Hi, Welcome to My Website!</h1>
+            <p>Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.</p>
           </div>
           <div className="space-y-4 text-[var(--muted)] leading-relaxed">
-            <p>Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.</p>
+    
             <p>
              I am currently bachelor student at TUM and a member of 42 Heilbronn. I focus on low level system programming and optimization. I am also interested in AI/ML and have done some projects in that area. This site is where I share my work, ideas, and technical notes.
             </p>
