@@ -1,0 +1,42 @@
+[
+  {
+    "url": "/projects/algorithm-visualizer",
+    "title": "Algorithm Visualizer",
+    "kind": "project"
+  },
+  {
+    "url": "/projects/data-viz",
+    "title": "Data Viz Dashboard",
+    "kind": "project"
+  },
+  {
+    "url": "/blog/backpropagation-math",
+    "title": "Deriving Backpropagation with LaTeX",
+    "kind": "blog"
+  },
+  {
+    "url": "/blog/information-theory",
+    "title": "Information Theory Basics: Entropy and Mutual Information",
+    "kind": "blog"
+  },
+  {
+    "url": "/projects/ml-notes",
+    "title": "ML Notes System",
+    "kind": "project"
+  },
+  {
+    "url": "/blog/nextjs-best-practices",
+    "title": "Next.js Full-Stack Development Best Practices",
+    "kind": "blog"
+  },
+  {
+    "url": "/projects/personal-website",
+    "title": "Personal Website",
+    "kind": "project"
+  },
+  {
+    "url": "/projects/risc-v-processor-on-fpga-board",
+    "title": "RISC-V Processor on FPGA board",
+    "kind": "project"
+  }
+]
