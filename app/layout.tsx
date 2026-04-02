@@ -25,7 +25,7 @@ export default function RootLayout({
           <SmoothScroll />
           <Navbar />
           <div className="min-h-screen flex flex-col lg:pl-64">
-            <div className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--background)]/85 backdrop-blur-md">
+            <div className="sticky top-0 z-40 bg-[var(--background)]/85 backdrop-blur-md">
               <div className="mx-auto flex w-full max-w-5xl items-center justify-end gap-3 px-6 py-4">
                 <SearchBar />
                 <UtcClock />

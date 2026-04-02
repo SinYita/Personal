@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-64 bg-[var(--background)]/95 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-[var(--border)] transition-colors duration-300">
+    <aside className="lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 w-full lg:w-64 bg-[var(--background)]/95 backdrop-blur-md transition-colors duration-300">
       <div className="flex h-full flex-col items-center px-5 py-8 lg:px-5 lg:py-12 text-center">
         {/* Avatar Section */}
         <div className="flex flex-col items-center gap-4 pb-8 lg:pb-12">
