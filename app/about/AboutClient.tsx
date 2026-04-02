@@ -46,7 +46,7 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
               <p className="text-sm text-[var(--muted)]">GPA: {edu.gpa}</p>
               <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)]">
                 {edu.highlights.map((h, j) => (
-                  <li key={j} className="leading-relaxed">{h}</li>
+                  <li key={j} className="leading-relaxed">{toDisplayText(h)}</li>
                 ))}
               </ul>
             </div>
@@ -67,7 +67,7 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
               </div>
               <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)]">
                 {exp.highlights.map((h, j) => (
-                  <li key={j} className="leading-relaxed">{h}</li>
+                  <li key={j} className="leading-relaxed">{toDisplayText(h)}</li>
                 ))}
               </ul>
             </div>
@@ -82,7 +82,7 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
             <div key={i} className="space-y-2 text-sm">
               <div className="font-medium text-[var(--foreground)]">{group.category}</div>
               <div className="text-[var(--muted)] leading-relaxed">
-                {group.items.join(", ")}
+                {group.items.map((item) => toDisplayText(item)).join(", ")}
               </div>
             </div>
           ))}
@@ -128,4 +128,18 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       </div>
     </section>
   );
+}
+
+function toDisplayText(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>);
+    if (entries.length === 1) {
+      const [k, v] = entries[0];
+      return `${k}: ${toDisplayText(v)}`;
+    }
+    return entries.map(([k, v]) => `${k}: ${toDisplayText(v)}`).join(", ");
+  }
+  return "";
 }
