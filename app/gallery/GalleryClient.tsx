@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRef } from "react";
 
 type GalleryItem = {
   src: string;
   alt: string;
   title: string;
   caption: string;
-  className: string;
 };
 
 const galleryItems: GalleryItem[] = [
@@ -17,47 +17,42 @@ const galleryItems: GalleryItem[] = [
     alt: "Landscape photograph with soft light",
     title: "Morning Light",
     caption: "Warm light and soft contrast.",
-    className: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
   {
     src: "https://picsum.photos/seed/sinyita-gallery-2/800/1100",
     alt: "Vertical city photograph",
     title: "City Edge",
     caption: "Vertical frame with quiet movement.",
-    className: "row-span-2 md:row-span-2",
   },
   {
     src: "https://picsum.photos/seed/sinyita-gallery-3/1000/700",
     alt: "Minimal still life photograph",
     title: "Still Frame",
     caption: "Muted tones and simple composition.",
-    className: "col-span-2 md:col-span-2",
   },
   {
     src: "https://picsum.photos/seed/sinyita-gallery-4/900/900",
     alt: "Square portrait style photograph",
     title: "Portrait Study",
     caption: "Square crop for a tighter focus.",
-    className: "row-span-2 md:row-span-2",
   },
   {
     src: "https://picsum.photos/seed/sinyita-gallery-5/1100/750",
     alt: "Warm indoor photograph",
     title: "Room Tone",
     caption: "A calmer frame with indoor texture.",
-    className: "col-span-2 md:col-span-2",
   },
   {
     src: "https://picsum.photos/seed/sinyita-gallery-6/1000/650",
     alt: "Nature and shadow photograph",
     title: "Shadow Walk",
     caption: "Light and shadow moving across the frame.",
-    className: "col-span-2 md:col-span-2",
   },
 ];
 
 export default function GalleryClient() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const viewerRef = useRef<HTMLElement | null>(null);
   const activeItem = activeIndex === null ? null : galleryItems[activeIndex];
 
   const close = () => setActiveIndex(null);
@@ -80,6 +75,11 @@ export default function GalleryClient() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeIndex]);
 
+  useEffect(() => {
+    if (activeIndex === null) return;
+    viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [activeIndex]);
+
   return (
     <div className="space-y-8 pb-20">
       {activeItem === null ? (
@@ -96,6 +96,7 @@ export default function GalleryClient() {
         {activeItem && activeIndex !== null ? (
           <motion.section
             key="viewer"
+            ref={viewerRef}
             className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-5xl flex-col justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -112,16 +113,18 @@ export default function GalleryClient() {
               </button>
             </div>
 
-            <motion.img
-              key={activeItem.src}
-              src={activeItem.src}
-              alt={activeItem.alt}
-              className="mx-auto h-[min(70vh,720px)] w-full object-contain"
-              initial={{ opacity: 0, scale: 0.985 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.985 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-            />
+            <div className="flex min-h-[65vh] items-center justify-center">
+              <motion.img
+                key={activeItem.src}
+                src={activeItem.src}
+                alt={activeItem.alt}
+                className="mx-auto h-[min(70vh,720px)] w-full object-contain"
+                initial={{ opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+              />
+            </div>
 
             <div className="mt-5 flex items-end justify-between gap-6">
               <div className="max-w-[70%] text-[var(--foreground)]">
@@ -153,13 +156,13 @@ export default function GalleryClient() {
           </motion.section>
         ) : (
           <motion.section key="grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[170px] gap-4 md:gap-5 items-start">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-5 items-start">
               {galleryItems.map((item, index) => (
                 <button
                   key={item.src}
                   type="button"
                   onClick={() => open(index)}
-                  className={`group relative overflow-hidden rounded-2xl bg-[var(--code-bg)] border border-[var(--border)] ${item.className}`}
+                  className="group relative w-full overflow-hidden rounded-2xl bg-[var(--code-bg)] border border-[var(--border)]"
                   aria-label={`Open ${item.title}`}
                 >
                   <img
@@ -167,7 +170,7 @@ export default function GalleryClient() {
                     alt={item.alt}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="block h-auto w-full transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute inset-x-0 bottom-0 p-4 text-left text-white opacity-0 group-hover:opacity-100 transition-opacity">

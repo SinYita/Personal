@@ -3,7 +3,7 @@ import AboutClient from "./AboutClient";
 import { getResumeData } from "@/lib/resumeData";
 
 export const metadata: Metadata = {
-  title: "About | SinYita",
+  title: "About | Weiyuan",
   description: "About me / resume",
 };
 

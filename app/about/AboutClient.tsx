@@ -11,12 +11,14 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
     <div className="flex flex-col space-y-12 pb-20">
       {/* Header */}
       <section className="space-y-4 pb-4">
-        <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m SinYita</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m Weiyuan</h1>
         <div className="space-y-4 text-[var(--muted)] leading-relaxed max-w-3xl text-base">
-          <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>
+          <p>Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.</p>
           <p>
-            I build practical web products with modern React and Next.js, while exploring AI/ML in real
-            projects. This site is where I share my work, ideas, and technical notes.
+            I study Informatics at TUM and sharpen my coding skills at 42 Heilbronn.
+            I’m a Systems Programming enthusiast who loves digging into the "how" and "why" of software. My work ranges from optimizing parallel C++ solvers to porting complex robotics stacks across architectures. I also keep a close eye on AI/ML, exploring how to build smarter, more efficient models.
+
+On this site, I document my technical journey—sharing everything from deep-level system notes to ideas on future tech.
           </p>
           <div className="flex gap-5 pt-6 text-[var(--muted)] items-center">
             <a href="https://github.com/SinYita" target="_blank" rel="noreferrer" className="hover:text-[var(--foreground)] transition-colors" aria-label="GitHub">

@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata: Metadata = {
-  title: "Projects | SinYita",
+  title: "Projects | Weiyuan",
   description: "Project case studies, experiments, and engineering notes.",
 };
 
