@@ -44,7 +44,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   return (
     <div className="grid gap-10 pb-20 lg:grid-cols-[minmax(0,1fr)_160px]">
       <div className="space-y-16">
-        <section className="space-y-4 border-b border-[var(--border)] pb-6">
+        <section className="space-y-4">
           <h1 className="text-3xl font-semibold tracking-tight">All Posts</h1>
           <p className="text-base text-[var(--muted)] leading-relaxed">
             Notes, thoughts, and technical writing.
@@ -96,7 +96,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
 
       {allTags.length > 0 && (
         <aside className="hidden lg:block">
-          <div className="sticky top-28 space-y-4 border-l border-[var(--border)] pl-2">
+          <div className="sticky top-28 space-y-4 pl-2">
             <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
             <div className="flex flex-wrap gap-2">
               <TagChip

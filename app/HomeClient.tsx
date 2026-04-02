@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
@@ -12,22 +11,10 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
     <div className="flex flex-col space-y-24 py-16 pb-32">
       {/* Hero Section */}
       <section id="about" className="scroll-mt-32">
-        <div className="space-y-6 max-w-3xl border-b border-[var(--border)] pb-8">
-          <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
-            <div className="h-16 w-16 overflow-hidden rounded-full border border-[var(--border)]">
-              <Image
-                src="/assets/profile.jpg"
-                alt="SinYita avatar"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-                priority
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m SinYita</h1>
-              <p className="text-base text-[var(--muted)] mt-1">Full-stack Developer</p>
-            </div>
+        <div className="space-y-6 max-w-3xl pb-8">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m SinYita</h1>
+            <p className="text-base text-[var(--muted)] mt-1">Full-stack Developer</p>
           </div>
           <div className="space-y-4 text-[var(--muted)] leading-relaxed">
             <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>

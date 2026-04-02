@@ -8,11 +8,11 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
   const data = resumeData;
 
   return (
-    <div className="flex flex-col space-y-16 pb-20">
+    <div className="flex flex-col space-y-12 pb-20">
       {/* Header */}
-      <section className="space-y-4 border-b border-[var(--border)] pb-10">
+      <section className="space-y-4 pb-4">
         <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m SinYita</h1>
-        <div className="space-y-4 text-[var(--muted)] leading-relaxed max-w-3xl text-lg">
+        <div className="space-y-4 text-[var(--muted)] leading-relaxed max-w-3xl text-base">
           <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>
           <p>
             I build practical web products with modern React and Next.js, while exploring AI/ML in real
@@ -43,25 +43,25 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
 
       {/* Education */}
       <Section title="Education">
-        <div className="space-y-10">
+        <div className="space-y-8">
           {data.education.map((edu, i) => (
             <article key={i} className="space-y-4">
               <div>
-                <h3 className="text-2xl sm:text-[1.75rem] font-semibold tracking-tight text-[var(--foreground)]">
+                <h3 className="text-lg font-medium text-[var(--foreground)]">
                   {edu.degree}, {edu.school}{edu.location ? `, ${edu.location}` : ""}.
                 </h3>
-                <p className="text-xl text-[var(--foreground)]/90 mt-1">{edu.duration}</p>
+                <p className="text-sm text-[var(--muted)] font-mono mt-1">{edu.duration}</p>
               </div>
               {edu.gpa ? (
-                <p className="text-base text-[var(--muted)]">
+                <p className="text-sm text-[var(--muted)]">
                   GPA: <span className="italic">{edu.gpa}</span>
                 </p>
               ) : null}
               {edu.summary ? (
-                <p className="text-[1.05rem] text-[var(--muted)] leading-relaxed">{edu.summary}</p>
+                <p className="text-sm text-[var(--muted)] leading-relaxed">{edu.summary}</p>
               ) : null}
               {edu.highlights && edu.highlights.length > 0 ? (
-                <ul className="list-disc list-inside space-y-2 text-[1.05rem] text-[var(--muted)] leading-relaxed">
+                <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)] leading-relaxed">
                   {edu.highlights.map((h, j) => (
                     <li key={j}>{toDisplayText(h)}</li>
                   ))}
@@ -74,25 +74,25 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
 
       {/* Experience */}
       <Section title="Experience">
-        <div className="space-y-14">
+        <div className="space-y-10">
           {data.experience.map((exp, i) => (
             <article key={i} className="space-y-5">
               <div>
-                <h3 className="text-2xl sm:text-[1.75rem] font-semibold tracking-tight text-[var(--foreground)]">
+                <h3 className="text-lg font-medium text-[var(--foreground)]">
                   {exp.title}, {exp.company}{exp.location ? `, ${exp.location}` : ""}.
                 </h3>
-                <p className="text-xl text-[var(--foreground)]/90 mt-1">{exp.duration}</p>
+                <p className="text-sm text-[var(--muted)] font-mono mt-1">{exp.duration}</p>
               </div>
               {exp.tools && exp.tools.length > 0 ? (
-                <p className="text-[1.05rem] text-[var(--muted)]">
+                <p className="text-sm text-[var(--muted)]">
                   Tools used: <span className="italic">{exp.tools.join(", ")}.</span>
                 </p>
               ) : null}
               {exp.summary ? (
-                <p className="text-[1.05rem] text-[var(--muted)] leading-relaxed">{exp.summary}</p>
+                <p className="text-sm text-[var(--muted)] leading-relaxed">{exp.summary}</p>
               ) : null}
               {exp.highlights && exp.highlights.length > 0 ? (
-                <ul className="list-disc list-inside space-y-2 text-[1.05rem] text-[var(--muted)] leading-relaxed">
+                <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--muted)] leading-relaxed">
                   {exp.highlights.map((h, j) => (
                     <li key={j}>{toDisplayText(h)}</li>
                   ))}
@@ -105,7 +105,7 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
 
       {/* Skills */}
       <Section title="Skills">
-        <div className="grid sm:grid-cols-2 gap-y-6 gap-x-12">
+        <div className="grid sm:grid-cols-2 gap-y-6 gap-x-10">
           {data.skills.map((group, i) => (
             <div key={i} className="space-y-2 text-sm">
               <div className="font-medium text-[var(--foreground)]">{group.category}</div>
@@ -119,7 +119,7 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
 
       {/* Projects */}
       <Section title="Projects">
-        <div className="grid sm:grid-cols-2 gap-y-8 gap-x-12">
+        <div className="grid sm:grid-cols-2 gap-y-8 gap-x-10">
           {data.projects.map((proj, i) => (
             <div key={i} className="space-y-2">
               <div className="font-medium text-[var(--foreground)]">{proj.name}</div>
@@ -147,13 +147,11 @@ export default function AboutClient({ resumeData }: { resumeData: ResumeData }) 
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-8 md:gap-12 items-start">
-      <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)] mt-1">
+    <section className="space-y-5">
+      <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">
         {title}
       </h2>
-      <div className="min-w-0">
-        {children}
-      </div>
+      <div className="min-w-0">{children}</div>
     </section>
   );
 }
