@@ -12,15 +12,20 @@ export interface ResumeData {
   education: Array<{
     degree: string;
     school: string;
+    location?: string;
     duration: string;
-    gpa: string;
-    highlights: string[];
+    gpa?: string;
+    highlights?: string[];
+    summary?: string;
   }>;
   experience: Array<{
     title: string;
     company: string;
+    location?: string;
     duration: string;
-    highlights: string[];
+    tools?: string[];
+    summary?: string;
+    highlights?: string[];
   }>;
   skills: Array<{
     category: string;

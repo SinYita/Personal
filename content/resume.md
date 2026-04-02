@@ -8,27 +8,48 @@ summary: Solid full-stack developer with a strong interest in Machine Learning a
 education:
   - degree: B.S. in Information Engineering
     school: Technical University of Munich
-    duration: 2023 - 2026
+    location: Munich
+    duration: October 2023 – July 2026
     gpa: 1.7/1.0
+    summary: Focused on machine learning systems and software engineering foundations, with coursework spanning theory, infrastructure, and applied model development.
     highlights:
-      - 'Core: Data Structures and Algorithms, Operating Systems, Computer Networks'
-      - 'Math: Linear Algebra, Probability, Information Theory, Analysis'
-      - 'Practical Course: Applied Machine Learning'
+      - 'Core modules: Data Structures and Algorithms, Operating Systems, Computer Networks'
+      - 'Math modules: Linear Algebra, Probability, Information Theory, Analysis'
+      - 'Practical coursework: Applied Machine Learning and engineering-focused labs'
 experience:
-  - title: Research Assistant
-    company: Technical University of Munich
-    duration: 2025.10 - 2026.03
+  - title: Software Engineering Intern
+    company: Meta
+    location: London
+    duration: June 2025 – September 2025
+    tools:
+      - Python
+      - PyTorch
+      - pandas
+      - Matplotlib
+      - Thrift
+      - Kats
+    summary: Worked on the Detection Foundation team in the Data, Developers, and AI Infra Group. Built a self-supervised learning workflow to improve detector precision and contributed a production feature to the open-source forecasting library Kats.
     highlights:
-      - Built front-end features for an internal management system with React and TypeScript
-      - Optimized critical page performance and reduced first-contentful paint by around 40%
-      - Collaborated with backend engineers on REST API specifications and integration
-  - title: Tutor of Machine Learning
-    company: Technical University of Munich
-    duration: 2025.10 - 2026.01
+      - Implemented model evaluation and error-analysis tooling for faster experiment iteration
+      - Partnered with cross-functional engineers to align data pipelines and training interfaces
+      - Shipped public-facing code in Kats with a full internal review cycle
+  - title: Software Development Engineering Intern
+    company: AWS
+    location: Berlin
+    duration: April 2025 – June 2025
+    tools:
+      - Python
+      - Java
+      - TypeScript
+      - React
+      - PostgreSQL
+      - Git
+      - Smithy
+    summary: Worked on the Amazon Redshift Control Plane team. Delivered internal service and UI improvements, and collaborated closely with backend and platform engineers on reliability and developer experience.
     highlights:
-      - Submitted pull requests to multiple open-source repositories for fixes and new features
-      - Maintained personal repositories and grew public adoption through consistent updates
-      - Wrote technical posts and participated in developer community discussions
+      - Built service-side features and supporting frontend workflows used by internal operators
+      - Improved API contracts and integration patterns across service boundaries
+      - Contributed test coverage and quality checks for safer deployment iterations
 skills:
   - category: Programming Languages
     items:

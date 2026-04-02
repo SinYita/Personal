@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
 import type { PostMeta } from "@/lib/posts";
@@ -11,8 +12,23 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
     <div className="flex flex-col space-y-24 py-16 pb-32">
       {/* Hero Section */}
       <section id="about" className="scroll-mt-32">
-        <div className="space-y-4 max-w-2xl">
-          <h1 className="text-2xl font-semibold mb-6">Hi, I&apos;m SinYita</h1>
+        <div className="space-y-6 max-w-3xl border-b border-[var(--border)] pb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
+            <div className="h-16 w-16 overflow-hidden rounded-full border border-[var(--border)]">
+              <Image
+                src="/assets/profile.jpg"
+                alt="SinYita avatar"
+                width={64}
+                height={64}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
+            <div>
+              <h1 className="text-3xl font-semibold tracking-tight">Hi, I&apos;m SinYita</h1>
+              <p className="text-base text-[var(--muted)] mt-1">Full-stack Developer</p>
+            </div>
+          </div>
           <div className="space-y-4 text-[var(--muted)] leading-relaxed">
             <p>Full-stack Developer, ML Enthusiast, and Technical Writer.</p>
             <p>
@@ -45,7 +61,7 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
 
       {/* Projects Section */}
       <section id="projects" className="scroll-mt-32">
-        <h2 className="text-xl font-semibold mb-8">Featured Projects</h2>
+        <h2 className="text-2xl font-semibold tracking-tight mb-8">Featured Projects</h2>
         <div className="grid gap-x-8 gap-y-12 md:grid-cols-2">
           {projects.filter(p => p.featured).map((project) => (
             <article
@@ -103,7 +119,7 @@ export default function HomeClient({ recentPosts, projects }: { recentPosts: Pos
 
       {/* Writing Section */}
       <section id="blog" className="scroll-mt-32">
-        <h2 className="text-xl font-semibold mb-8">Recent Writing</h2>
+        <h2 className="text-2xl font-semibold tracking-tight mb-8">Recent Writing</h2>
         <div className="flex flex-col gap-6">
           {recentPosts.map((post) => (
              <div key={post.slug} className="group">

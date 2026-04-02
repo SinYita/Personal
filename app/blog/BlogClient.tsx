@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { PostMeta } from "@/lib/posts";
+import TagChip from "@/components/TagChip";
 
 export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   const searchParams = useSearchParams();
@@ -43,7 +44,7 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   return (
     <div className="grid gap-10 pb-20 lg:grid-cols-[minmax(0,1fr)_160px]">
       <div className="space-y-16">
-        <section className="space-y-4">
+        <section className="space-y-4 border-b border-[var(--border)] pb-6">
           <h1 className="text-3xl font-semibold tracking-tight">All Posts</h1>
           <p className="text-base text-[var(--muted)] leading-relaxed">
             Notes, thoughts, and technical writing.
@@ -76,17 +77,13 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
                   {post.tags && post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-1">
                       {post.tags.map((tag) => (
-                        <button
+                        <TagChip
                           key={tag}
+                          label={tag}
+                          withHash
+                          selected={selectedTags.has(tag)}
                           onClick={() => handleTagClick(tag)}
-                          className={`text-xs transition-colors cursor-pointer ${
-                            selectedTags.has(tag)
-                              ? "text-[var(--accent)]"
-                              : "text-[var(--muted)] hover:text-[var(--foreground)]"
-                          }`}
-                        >
-                          #{tag}
-                        </button>
+                        />
                       ))}
                     </div>
                   )}
@@ -102,29 +99,20 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
           <div className="sticky top-28 space-y-4 border-l border-[var(--border)] pl-2">
             <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
             <div className="flex flex-wrap gap-2">
-              <button
+              <TagChip
                 key={ALL_TAG}
+                label={ALL_TAG}
+                selected={selectedTags.has(ALL_TAG)}
                 onClick={() => handleTagClick(ALL_TAG)}
-                className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
-                  selectedTags.has(ALL_TAG)
-                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
-                    : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
-                }`}
-              >
-                {ALL_TAG}
-              </button>
+              />
               {allTags.map((tag) => (
-                <button
+                <TagChip
                   key={tag}
+                  label={tag}
+                  withHash
+                  selected={selectedTags.has(tag)}
                   onClick={() => handleTagClick(tag)}
-                  className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors cursor-pointer ${
-                    selectedTags.has(tag)
-                      ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--background)]"
-                      : "border-[var(--border)] bg-[var(--code-bg)] text-[var(--muted)] hover:border-[var(--accent)]"
-                  }`}
-                >
-                  #{tag}
-                </button>
+                />
               ))}
             </div>
           </div>

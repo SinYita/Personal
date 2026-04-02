@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
@@ -28,9 +29,16 @@ export default function Navbar() {
           <Link
             href="/"
             aria-label="Go to home"
-            className="h-20 w-20 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--border)] flex items-center justify-center text-2xl font-semibold text-white border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110"
+            className="h-20 w-20 overflow-hidden rounded-full border-2 border-[var(--border)] transition-transform duration-300 hover:scale-110"
           >
-            SN
+            <Image
+              src="/assets/profile.jpg"
+              alt="SinYita avatar"
+              width={80}
+              height={80}
+              className="h-full w-full object-cover"
+              priority
+            />
           </Link>
           <div>
             <h1 className="text-[2rem] font-bold text-[var(--foreground)] leading-none">SinYita</h1>
