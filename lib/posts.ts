@@ -42,7 +42,7 @@ export function getPostMeta(slug: string): PostMeta | null {
     slug,
     title: data.title ?? slug,
     date: normalizeDate(data.date),
-    tags: data.tags ?? [],
+    tags: normalizeTags(data.tags),
     excerpt: data.excerpt ?? "",
     coverImage: data.coverImage,
   };
@@ -57,11 +57,23 @@ export function getPost(slug: string): Post | null {
     slug,
     title: data.title ?? slug,
     date: normalizeDate(data.date),
-    tags: data.tags ?? [],
+    tags: normalizeTags(data.tags),
     excerpt: data.excerpt ?? "",
     coverImage: data.coverImage,
     content,
   };
+}
+
+function normalizeTags(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+
+  return Array.from(
+    new Set(
+      input
+        .map((tag) => String(tag ?? "").replace(/^#+/, "").trim())
+        .filter(Boolean)
+    )
+  );
 }
 
 function normalizeDate(input: unknown): string {

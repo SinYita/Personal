@@ -51,7 +51,7 @@ export function getProjectMeta(slug: string): ProjectMeta | null {
     title: data.title,
     description: data.description,
     techStack: data.techStack ?? [],
-    tags: data.tags ?? [],
+    tags: normalizeTags(data.tags),
     github: data.github,
     demo: data.demo,
     featured: Boolean(data.featured),
@@ -72,11 +72,23 @@ export function getProject(slug: string): Project | null {
     title: data.title,
     description: data.description,
     techStack: data.techStack ?? [],
-    tags: data.tags ?? [],
+    tags: normalizeTags(data.tags),
     github: data.github,
     demo: data.demo,
     featured: Boolean(data.featured),
     date: data.date ? String(data.date) : "",
     content,
   };
+}
+
+function normalizeTags(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+
+  return Array.from(
+    new Set(
+      input
+        .map((tag) => String(tag ?? "").replace(/^#+/, "").trim())
+        .filter(Boolean)
+    )
+  );
 }

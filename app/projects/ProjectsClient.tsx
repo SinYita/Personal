@@ -14,9 +14,9 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
   );
 
   const projectTagMap = new Map(projects.map((project) => [project.id, getProjectTags(project)]));
-  const tagOptions = Array.from(new Set(Array.from(projectTagMap.values()).flat())).sort();
+  const allTags = Array.from(new Set(Array.from(projectTagMap.values()).flat())).sort();
   const tagCounts = new Map<string, number>(
-    tagOptions.map((tag) => [
+    allTags.map((tag) => [
       tag,
       projects.reduce((count, project) => count + (projectTagMap.get(project.id)?.includes(tag) ? 1 : 0), 0),
     ])
@@ -45,7 +45,7 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
     selectedTags.has(ALL_TAG)
       ? projects
       : projects.filter((project) =>
-          Array.from(selectedTags).every((tag) => projectTagMap.get(project.id)?.includes(tag))
+          Array.from(selectedTags).some((tag) => projectTagMap.get(project.id)?.includes(tag))
         );
 
   return (
@@ -89,6 +89,8 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
                       <TagChip
                         key={tag}
                         label={tag}
+                        selected={selectedTags.has(tag)}
+                        onClick={() => handleTagClick(tag)}
                       />
                     ))}
                   </div>
@@ -121,29 +123,31 @@ export default function ProjectsClient({ projects }: { projects: ProjectMeta[] }
         </div>
       </div>
 
-      <aside className="hidden lg:block">
-        <div className="sticky top-28 space-y-4 pl-2">
-          <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
-          <div className="flex flex-wrap gap-2">
-            <TagChip
-              key={ALL_TAG}
-              label={ALL_TAG}
-              count={projects.length}
-              selected={selectedTags.has(ALL_TAG)}
-              onClick={() => handleTagClick(ALL_TAG)}
-            />
-            {tagOptions.map((tag) => (
+      {allTags.length > 0 && (
+        <aside className="hidden lg:block">
+          <div className="sticky top-28 space-y-4 pl-2">
+            <h2 className="text-sm font-semibold tracking-wider uppercase text-[var(--foreground)]">Tags</h2>
+            <div className="flex flex-wrap gap-2">
               <TagChip
-                key={tag}
-                label={tag}
-                count={tagCounts.get(tag) ?? 0}
-                onClick={() => handleTagClick(tag)}
-                selected={selectedTags.has(tag)}
+                key={ALL_TAG}
+                label={ALL_TAG}
+                count={projects.length}
+                selected={selectedTags.has(ALL_TAG)}
+                onClick={() => handleTagClick(ALL_TAG)}
               />
-            ))}
+              {allTags.map((tag) => (
+                <TagChip
+                  key={tag}
+                  label={tag}
+                  count={tagCounts.get(tag) ?? 0}
+                  onClick={() => handleTagClick(tag)}
+                  selected={selectedTags.has(tag)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      )}
     </div>
   );
 }
