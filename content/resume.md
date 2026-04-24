@@ -2,14 +2,14 @@
 name: Weiyuan Du
 email: weiyuan.du@tum.de
 github: github.com/SinYita
-linkedin: ''
-leetcode: ''
+linkedin: www.linkedin.com/in/weiyuan-du
+leetcode: https://leetcode.com/u/sinyita/
 codeforces: ''
 hackerrank: ''
 avatar: /assets/profile.jpg
 homeHeading: Hi, Welcome to My Website!
 homeSubtitle: CS Student@TUM and @42Heilbronn, ML Enthusiast, and Technical Writer.
-homeSummary: I am currently bachelor student at TUM and a member of 42 Heilbronn. I focus on low level system programming and optimization. I am also interested in AI/ML and have done some projects in that area. This site is where I share my work, ideas, and technical notes.
+homeSummary: I build low-level systems and machine learning tools, with a focus on performance, optimization, and pratical impact.
 title: Machine Learning, C++, HPC,Python
 location: Germany
 summary: |-
@@ -19,8 +19,8 @@ summary: |-
 education:
   - degree: B.S. in Information Engineering
     school: Technical University of Munich
-    duration: October 2023 – July 2026
-    gpa: 1.7/1.0
+    duration: October 2023 – July 2027
+    gpa: 1.5/1.0
     highlights:
       - 'Core modules: Data Structures and Algorithms, Operating Systems, Computer Networks'
       - 'Math modules: Linear Algebra, Probability, Information Theory, Analysis'
@@ -35,7 +35,7 @@ experience:
       - Implemented model evaluation and error-analysis tooling for faster experiment iteration
       - Partnered with cross-functional engineers to align data pipelines and training interfaces
       - Shipped public-facing code in Kats with a full internal review cycle
-    summary: Worked on the Detection Foundation team in the Data, Developers, and AI Infra Group. Built a self-supervised learning workflow to improve detector precision and contributed a production feature to the open-source forecasting library Kats.
+    location: London
     tools:
       - Python
       - PyTorch
@@ -43,7 +43,7 @@ experience:
       - Matplotlib
       - Thrift
       - Kats
-    location: London
+    summary: Worked on the Detection Foundation team in the Data, Developers, and AI Infra Group. Built a self-supervised learning workflow to improve detector precision and contributed a production feature to the open-source forecasting library Kats.
   - title: Software Development Engineering Intern
     company: AWS
     duration: April 2025 – June 2025
@@ -51,7 +51,7 @@ experience:
       - Built service-side features and supporting frontend workflows used by internal operators
       - Improved API contracts and integration patterns across service boundaries
       - Contributed test coverage and quality checks for safer deployment iterations
-    summary: Worked on the Amazon Redshift Control Plane team. Delivered internal service and UI improvements, and collaborated closely with backend and platform engineers on reliability and developer experience.
+    location: Berlin
     tools:
       - Python
       - Java
@@ -60,7 +60,7 @@ experience:
       - PostgreSQL
       - Git
       - Smithy
-    location: Berlin
+    summary: Worked on the Amazon Redshift Control Plane team. Delivered internal service and UI improvements, and collaborated closely with backend and platform engineers on reliability and developer experience.
 skills:
   - category: Programming Languages
     items:
