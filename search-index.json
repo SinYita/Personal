@@ -15,6 +15,11 @@
     "kind": "blog"
   },
   {
+    "url": "/blog/gpu-computing",
+    "title": "GPU Computing",
+    "kind": "blog"
+  },
+  {
     "url": "/blog/information-theory",
     "title": "Information Theory Basics: Entropy and Mutual Information",
     "kind": "blog"
