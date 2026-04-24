@@ -29,7 +29,8 @@ A complete implementation of a 32-bit 5-stage pipelined RISC-V processor in Veri
 
 The CPU implements the following RV32I instructions:
 
-- \*\*R-type\*\*: \`ADD\`, \`SUB\`, \`AND\`, \`OR\`, \`XOR\`, \`SLL\`, \`SRL\`, \`SRA\`, \`SLT\`, \`SLTU\`
+\*\*R-type\*\*: \`ADD\`, \`SUB\`, \`AND\`, \`OR\`, \`XOR\`, \`SLL\`, \`SRL\`, \`SRA\`, \`SLT\`, \`SLTU\`
+
 - \*\*I-type\*\*: \`ADDI\`, \`ANDI\`, \`ORI\`, \`XORI\`, \`SLLI\`, \`SRLI\`, \`SRAI\`, \`SLTI\`, \`SLTIU\`
 - \*\*Load\*\*: \`LW\` (Load Word)
 - \*\*Store\*\*: \`SW\` (Store Word)
