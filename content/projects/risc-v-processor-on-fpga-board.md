@@ -29,7 +29,7 @@ A complete implementation of a 32-bit 5-stage pipelined RISC-V processor in Veri
 
 The CPU implements the following RV32I instructions:
 
-\*\*R-type\*\*: \`ADD\`, \`SUB\`, \`AND\`, \`OR\`, \`XOR\`, \`SLL\`, \`SRL\`, \`SRA\`, \`SLT\`, \`SLTU\`
+\*\*R-type: \`ADD\`, \`SUB\`, \`AND\`, \`OR\`, \`XOR\`, \`SLL\`, \`SRL\`, \`SRA\`, \`SLT\`, \`SLTU\`
 
 - \*\*I-type\*\*: \`ADDI\`, \`ANDI\`, \`ORI\`, \`XORI\`, \`SLLI\`, \`SRLI\`, \`SRAI\`, \`SLTI\`, \`SLTIU\`
 - \*\*Load\*\*: \`LW\` (Load Word)
@@ -135,7 +135,7 @@ The processor implements the following five pipeline stages:
 
 The design uses pipeline registers between each stage to hold intermediate results:
 
-- \*\*F/D Register\*\*: Holds instruction and PC
+- **F/D Register**: Holds instruction and PC
 - \*\*D/E Register\*\*: Holds decoded control signals, operands, and immediate
 - \*\*E/M Register\*\*: Holds ALU result, memory write data, and destination register
 - \*\*M/W Register\*\*: Holds memory read data, ALU result, and destination register
@@ -304,14 +304,6 @@ To add new instructions:
 
 - Create assembly test programs in [assembly/](assembly/)
 - Verify with [Pipeline_top_tb.v](Pipeline_top_tb.v)
-
-## License
-
-This project is open source and available under the MIT License.
-
-## Author
-
-\*\*Weiyuan Du (SinYita)\*\*
 
 ## Acknowledgments
 
